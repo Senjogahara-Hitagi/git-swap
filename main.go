@@ -25,7 +25,7 @@ const (
 type Profile struct {
 	Name       string `json:"name"`
 	Email      string `json:"email"`
-	SSHKey     string `json:"ssh_key"`     // Optional
+	SSHKey     string `json:"ssh_key"`     // Optional, supports ~ and environment variables
 	SigningKey string `json:"signing_key"` // Optional
 }
 
@@ -40,6 +40,7 @@ var reservedCommands = map[string]bool{
 	"rm":     true,
 	"auto":   true,
 	"help":   true,
+	"_complete": true,
 }
 
 func main() {
@@ -83,7 +84,6 @@ func main() {
 	case "help":
 		printUsage()
 	default:
-		// Try to swap to a profile with the given name
 		swapProfile(command, config)
 	}
 }
@@ -124,13 +124,29 @@ func saveConfig(config Config) {
 	}
 }
 
+func expandPath(path string) string {
+	if path == "" { return "" }
+
+	// 1. Expand Environment Variables (e.g., $HOME, %USERPROFILE%)
+	path = os.ExpandEnv(path)
+
+	// 2. Handle Tilde (~) Prefix
+	if strings.HasPrefix(path, "~") {
+		usr, _ := user.Current()
+		path = filepath.Join(usr.HomeDir, path[1:])
+	}
+
+	// 3. Normalize Slashes for Current OS
+	return filepath.Clean(path)
+}
+
 func addProfile(key string, config Config) {
 	if reservedCommands[strings.ToLower(key)] {
-		fmt.Printf("%sError: '%s' is a reserved command name. Please choose another name.%s\n", ColorRed, key, ColorReset)
+		fmt.Printf("%sError: '%s' is a reserved command name.%s\n", ColorRed, key, ColorReset)
 		os.Exit(1)
 	}
 	if _, exists := config[key]; exists {
-		fmt.Printf("%sProfile '%s' already exists. Use 'edit' to modify it.%s\n", ColorRed, key, ColorReset)
+		fmt.Printf("%sProfile '%s' already exists.%s\n", ColorRed, key, ColorReset)
 		os.Exit(1)
 	}
 
@@ -139,7 +155,7 @@ func addProfile(key string, config Config) {
 	name, _ := reader.ReadString('\n')
 	fmt.Printf("Enter Email: ")
 	email, _ := reader.ReadString('\n')
-	fmt.Printf("Enter SSH Key Path (Optional): ")
+	fmt.Printf("Enter SSH Key Path (Optional, supports ~ or $HOME): ")
 	sshKey, _ := reader.ReadString('\n')
 	fmt.Printf("Enter Signing Key (Optional): ")
 	signingKey, _ := reader.ReadString('\n')
@@ -152,7 +168,7 @@ func addProfile(key string, config Config) {
 	}
 
 	saveConfig(config)
-	fmt.Printf("%s✅ Profile '%s' added successfully!%s\n", ColorGreen, key, ColorReset)
+	fmt.Printf("%s✅ Profile '%s' added!%s\n", ColorGreen, key, ColorReset)
 }
 
 func editProfile(key string, config Config) {
@@ -187,7 +203,7 @@ func editProfile(key string, config Config) {
 
 	config[key] = profile
 	saveConfig(config)
-	fmt.Printf("%s✅ Profile '%s' updated successfully!%s\n", ColorGreen, key, ColorReset)
+	fmt.Printf("%s✅ Profile '%s' updated!%s\n", ColorGreen, key, ColorReset)
 }
 
 func removeProfile(key string, config Config) {
@@ -197,7 +213,7 @@ func removeProfile(key string, config Config) {
 	}
 	delete(config, key)
 	saveConfig(config)
-	fmt.Printf("%s🗑️ Profile '%s' removed successfully.%s\n", ColorGreen, key, ColorReset)
+	fmt.Printf("%s🗑️ Profile '%s' removed.%s\n", ColorGreen, key, ColorReset)
 }
 
 func listProfiles(config Config) {
@@ -223,10 +239,7 @@ func autoDetectProfile(config Config) {
 		os.Exit(1)
 	}
 
-	// Strategy 1: History-based detection (Highest Priority)
 	foundKey, foundSource := detectByHistory(config)
-
-	// Strategy 2: URL-based detection (Fallback)
 	if foundKey == "" {
 		foundKey, foundSource = detectByURL(config)
 	}
@@ -235,18 +248,15 @@ func autoDetectProfile(config Config) {
 		fmt.Printf("🔍 Detected via %s: %s%s%s\n", foundSource, ColorCyan, foundKey, ColorReset)
 		swapProfile(foundKey, config)
 	} else {
-		fmt.Printf("%s⚠️  Could not auto-detect a profile for this repository.%s\n", ColorYellow, ColorReset)
-		fmt.Println("Try setting it manually: git-swap <name>")
+		fmt.Printf("%s⚠️  Could not auto-detect a profile.%s\n", ColorYellow, ColorReset)
+		fmt.Println("Try: git-swap <name>")
 	}
 }
 
 func detectByHistory(config Config) (string, string) {
 	cmd := exec.Command("git", "log", "-n", "100", "--format=%ae")
 	output, err := cmd.Output()
-	if err != nil {
-		return "", ""
-	}
-
+	if err != nil { return "", "" }
 	emails := strings.Split(strings.TrimSpace(string(output)), "\n")
 	for _, e := range emails {
 		e = strings.TrimSpace(e)
@@ -264,43 +274,20 @@ func detectByURL(config Config) (string, string) {
 	cmd := exec.Command("git", "remote", "-v")
 	output, _ := cmd.Output()
 	lines := strings.Split(string(output), "\n")
-	
-	// Regex to extract username from SSH or HTTPS URLs
-	// Examples: 
-	// git@github.com:Username/repo.git
-	// https://github.com/Username/repo.git
 	re := regexp.MustCompile(`[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+`)
-	
 	usernames := make(map[string]bool)
 	for _, line := range lines {
 		matches := re.FindStringSubmatch(line)
-		if len(matches) > 1 {
-			usernames[matches[1]] = true
-		}
+		if len(matches) > 1 { usernames[matches[1]] = true }
 	}
-
 	if len(usernames) == 0 { return "", "" }
-
-	// Try to match extracted usernames against our config
 	for user := range usernames {
-		// 1. Match against Profile Key
 		for key := range config {
-			if strings.EqualFold(key, user) {
-				return key, "remote URL (profile name match)"
-			}
+			if strings.EqualFold(key, user) { return key, "remote URL" }
 		}
-		// 2. Match against Email Prefix
 		for key, p := range config {
-			emailPrefix := strings.Split(p.Email, "@")[0]
-			if strings.EqualFold(emailPrefix, user) {
-				return key, "remote URL (email prefix match)"
-			}
-		}
-		// 3. Match against Profile Name
-		for key, p := range config {
-			if strings.EqualFold(p.Name, user) {
-				return key, "remote URL (user name match)"
-			}
+			if strings.EqualFold(strings.Split(p.Email, "@")[0], user) { return key, "remote URL" }
+			if strings.EqualFold(p.Name, user) { return key, "remote URL" }
 		}
 	}
 	return "", ""
@@ -332,7 +319,7 @@ func showStatus(config Config) {
 	if matchedProfile != "" {
 		fmt.Printf("✅ This matches profile: %s%s%s\n", ColorGreen, matchedProfile, ColorReset)
 	} else {
-		fmt.Printf("%s⚠️  No matching profile found in git-swap config.%s\n", ColorYellow, ColorReset)
+		fmt.Printf("%s⚠️  No matching profile found.%s\n", ColorYellow, ColorReset)
 	}
 }
 
@@ -346,13 +333,20 @@ func swapProfile(profileName string, config Config) {
 		fmt.Printf("%sError: Not a git repository.%s\n", ColorRed, ColorReset)
 		os.Exit(1)
 	}
+	
 	setGitConfig("user.name", profile.Name)
 	setGitConfig("user.email", profile.Email)
 
 	if profile.SSHKey != "" {
-		sshCmd := fmt.Sprintf("ssh -i %s -o IdentitiesOnly=yes -F /dev/null", profile.SSHKey)
+		// Expand Environment Variables and Tilde
+		expandedSSHPath := expandPath(profile.SSHKey)
+		
+		// Use forward slashes for Git config even on Windows for better compatibility
+		cleanSSHPath := filepath.ToSlash(expandedSSHPath)
+		
+		sshCmd := fmt.Sprintf("ssh -i %s -o IdentitiesOnly=yes -F /dev/null", cleanSSHPath)
 		setGitConfig("core.sshCommand", sshCmd)
-		fmt.Printf("🔑 SSH Key locked: %s\n", profile.SSHKey)
+		fmt.Printf("🔑 SSH Key (Expanded): %s\n", cleanSSHPath)
 	} else {
 		unsetGitConfig("core.sshCommand")
 	}
@@ -387,7 +381,7 @@ func printUsage() {
 	fmt.Println("\nUsage (Commands):")
 	fmt.Println("  git-swap list              -> List all profiles")
 	fmt.Println("  git-swap status            -> Show current repo identity")
-	fmt.Println("  git-swap auto              -> Auto-detect from history (matches known profiles)")
+	fmt.Println("  git-swap auto              -> Auto-detect from history or URL")
 	fmt.Println("  git-swap add <name>        -> Add a new profile")
 	fmt.Println("  git-swap edit <name>       -> Edit an existing profile")
 	fmt.Println("  git-swap remove <name>     -> Delete a profile")
