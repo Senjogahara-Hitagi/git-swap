@@ -1,0 +1,20 @@
+{
+  "ChenZhu-Xie": {
+    "name": "Xcz",
+    "email": "294302704@qq.com",
+    "ssh_key": "%USERPROFILE%\\.ssh\\id_ed25519_acc1",
+    "signing_key": ""
+  },
+  "Senjogahara-Hitagi": {
+    "name": "Yuan-ZhanChang",
+    "email": "physicalcare390@gmail.com",
+    "ssh_key": "%USERPROFILE%\\.ssh\\id_ed25519_acc2",
+    "signing_key": ""
+  },
+  "kkRelation": {
+    "name": "kk",
+    "email": "mayone088@gmail.com",
+    "ssh_key": "%USERPROFILE%\\.ssh\\id_ed25519_acc3",
+    "signing_key": ""
+  }
+}
