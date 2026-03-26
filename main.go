@@ -75,6 +75,10 @@ func main() {
 		removeProfile(os.Args[2], config)
 	case "auto":
 		autoDetectProfile(config)
+	case "_complete":
+		for k := range config {
+			fmt.Println(k)
+		}
 	case "help":
 		printUsage()
 	default:
