@@ -150,8 +150,20 @@ func listProfiles(config Config) {
 
 func autoDetectProfile(config Config) {
 	if _, err := os.Stat(".git"); os.IsNotExist(err) { fmt.Printf("%sNot a repo.%s\n", ColorRed, ColorReset); os.Exit(1) }
-	k, s := detectByHistory(config)
-	if k == "" { k, s = detectByURL(config) }
+	
+	// Priority 1: Remote PUSH URL (Strongest signal)
+	k, s := detectByURL(config, true)
+	
+	// Priority 2: History (Habit signal)
+	if k == "" {
+		k, s = detectByHistory(config)
+	}
+	
+	// Priority 3: Remote FETCH URL (Fallback)
+	if k == "" {
+		k, s = detectByURL(config, false)
+	}
+
 	if k != "" {
 		fmt.Printf("🔍 Detected via %s: %s%s%s\n", s, ColorCyan, k, ColorReset)
 		swapProfile(k, config)
@@ -170,16 +182,25 @@ func detectByHistory(config Config) (string, string) {
 	return "", ""
 }
 
-func detectByURL(config Config) (string, string) {
+func detectByURL(config Config, preferPush bool) (string, string) {
 	out, _ := exec.Command("git", "remote", "-v").Output()
-	re := regexp.MustCompile(`[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+`)
-	matches := re.FindAllStringSubmatch(string(out), -1)
-	for _, m := range matches {
-		if len(m) > 1 {
-			user := m[1]
+	lines := strings.Split(string(out), "\n")
+	
+	re := regexp.MustCompile(`[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+\((push|fetch)\)`)
+	
+	sourceLabel := "remote URL"
+	if preferPush { sourceLabel = "remote PUSH URL" }
+
+	for _, line := range lines {
+		matches := re.FindStringSubmatch(line)
+		if len(matches) > 2 {
+			isPush := matches[2] == "push"
+			if preferPush != isPush { continue }
+			
+			user := matches[1]
 			for key, p := range config {
 				if strings.EqualFold(key, user) || strings.EqualFold(strings.Split(p.Email, "@")[0], user) || strings.EqualFold(p.Name, user) {
-					return key, "remote URL"
+					return key, sourceLabel
 				}
 			}
 		}
@@ -203,7 +224,6 @@ func swapProfile(profileName string, config Config) {
 	setGitConfig("user.email", p.Email)
 	if p.SSHKey != "" {
 		expanded := expandPath(p.SSHKey)
-		// Crucial: Use forward slashes and ensure full absolute path
 		clean := filepath.ToSlash(expanded)
 		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
 		setGitConfig("core.sshCommand", sshCmd)
