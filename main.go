@@ -59,9 +59,33 @@ func main() {
 	}
 }
 
+// getConfigPath defines the priority of config file lookup:
+// 1. Same directory as the executable
+// 2. Parent directory of the executable (useful if exe is in bin/)
+// 3. User's Home directory (default fallback)
 func getConfigPath() string {
+	fileName := ".git-swap-config.json"
+	
+	exePath, err := os.Executable()
+	if err == nil {
+		exeDir := filepath.Dir(exePath)
+		
+		// Priority 1: Next to executable
+		localPath := filepath.Join(exeDir, fileName)
+		if _, err := os.Stat(localPath); err == nil {
+			return localPath
+		}
+		
+		// Priority 2: One level up (if exe is in bin/)
+		parentPath := filepath.Join(filepath.Dir(exeDir), fileName)
+		if _, err := os.Stat(parentPath); err == nil {
+			return parentPath
+		}
+	}
+
+	// Priority 3: Home directory
 	usr, _ := user.Current()
-	return filepath.Join(usr.HomeDir, ".git-swap-config.json")
+	return filepath.Join(usr.HomeDir, fileName)
 }
 
 func loadConfig() Config {
@@ -81,8 +105,6 @@ func saveConfig(config Config) {
 
 func expandPath(path string) string {
 	if path == "" { return "" }
-
-	// 1. Explicitly handle Windows %VARIABLE% style
 	re := regexp.MustCompile(`%([^%]+)%`)
 	path = re.ReplaceAllStringFunc(path, func(m string) string {
 		parts := re.FindStringSubmatch(m)
@@ -92,17 +114,11 @@ func expandPath(path string) string {
 		}
 		return m
 	})
-
-	// 2. Expand Unix $VARIABLE style
 	path = os.ExpandEnv(path)
-
-	// 3. Handle Tilde (~) Prefix
 	if strings.HasPrefix(path, "~") {
 		usr, _ := user.Current()
 		path = filepath.Join(usr.HomeDir, path[1:])
 	}
-
-	// 4. Clean and resolve to absolute path to avoid ambiguity across machines
 	absPath, err := filepath.Abs(path)
 	if err == nil { return absPath }
 	return filepath.Clean(path)
@@ -124,7 +140,7 @@ func addProfile(key string, config Config) {
 		SSHKey: strings.TrimSpace(sshKey),
 		SigningKey: strings.TrimSpace(signingKey),
 	}
-	saveConfig(config); fmt.Printf("%s✅ Added!%s\n", ColorGreen, ColorReset)
+	saveConfig(config); fmt.Printf("%s✅ Added! (Saved to: %s)%s\n", ColorGreen, getConfigPath(), ColorReset)
 }
 
 func editProfile(key string, config Config) {
@@ -208,7 +224,6 @@ func swapProfile(profileName string, config Config) {
 	setGitConfig("user.email", p.Email)
 	if p.SSHKey != "" {
 		expanded := expandPath(p.SSHKey)
-		// Important: Wrap path in quotes to handle spaces in Windows paths
 		clean := filepath.ToSlash(expanded)
 		sshCmd := fmt.Sprintf("ssh -i \"%s\" -o IdentitiesOnly=yes -F /dev/null", clean)
 		setGitConfig("core.sshCommand", sshCmd)
