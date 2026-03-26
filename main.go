@@ -59,31 +59,16 @@ func main() {
 	}
 }
 
-// getConfigPath defines the priority of config file lookup:
-// 1. Same directory as the executable
-// 2. Parent directory of the executable (useful if exe is in bin/)
-// 3. User's Home directory (default fallback)
 func getConfigPath() string {
 	fileName := ".git-swap-config.json"
-	
 	exePath, err := os.Executable()
 	if err == nil {
 		exeDir := filepath.Dir(exePath)
-		
-		// Priority 1: Next to executable
 		localPath := filepath.Join(exeDir, fileName)
-		if _, err := os.Stat(localPath); err == nil {
-			return localPath
-		}
-		
-		// Priority 2: One level up (if exe is in bin/)
+		if _, err := os.Stat(localPath); err == nil { return localPath }
 		parentPath := filepath.Join(filepath.Dir(exeDir), fileName)
-		if _, err := os.Stat(parentPath); err == nil {
-			return parentPath
-		}
+		if _, err := os.Stat(parentPath); err == nil { return parentPath }
 	}
-
-	// Priority 3: Home directory
 	usr, _ := user.Current()
 	return filepath.Join(usr.HomeDir, fileName)
 }
@@ -126,21 +111,15 @@ func expandPath(path string) string {
 
 func addProfile(key string, config Config) {
 	if reservedCommands[strings.ToLower(key)] {
-		fmt.Printf("%sError: Reserved command name.%s\n", ColorRed, ColorReset); os.Exit(1)
+		fmt.Printf("%sError: Reserved command.%s\n", ColorRed, ColorReset); os.Exit(1)
 	}
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("Enter Name: "); name, _ := reader.ReadString('\n')
-	fmt.Printf("Enter Email: "); email, _ := reader.ReadString('\n')
-	fmt.Printf("Enter SSH Key Path (Optional): "); sshKey, _ := reader.ReadString('\n')
-	fmt.Printf("Enter Signing Key (Optional): "); signingKey, _ := reader.ReadString('\n')
-
-	config[key] = Profile{
-		Name: strings.TrimSpace(name),
-		Email: strings.TrimSpace(email),
-		SSHKey: strings.TrimSpace(sshKey),
-		SigningKey: strings.TrimSpace(signingKey),
-	}
-	saveConfig(config); fmt.Printf("%s✅ Added! (Saved to: %s)%s\n", ColorGreen, getConfigPath(), ColorReset)
+	fmt.Printf("Enter Name: "); n, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Email: "); e, _ := reader.ReadString('\n')
+	fmt.Printf("Enter SSH Key Path (Optional): "); s, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Signing Key (Optional): "); k, _ := reader.ReadString('\n')
+	config[key] = Profile{strings.TrimSpace(n), strings.TrimSpace(e), strings.TrimSpace(s), strings.TrimSpace(k)}
+	saveConfig(config); fmt.Printf("%s✅ Added! (%s)%s\n", ColorGreen, getConfigPath(), ColorReset)
 }
 
 func editProfile(key string, config Config) {
@@ -170,7 +149,7 @@ func listProfiles(config Config) {
 }
 
 func autoDetectProfile(config Config) {
-	if _, err := os.Stat(".git"); os.IsNotExist(err) { fmt.Printf("%sNot a git repo.%s\n", ColorRed, ColorReset); os.Exit(1) }
+	if _, err := os.Stat(".git"); os.IsNotExist(err) { fmt.Printf("%sNot a repo.%s\n", ColorRed, ColorReset); os.Exit(1) }
 	k, s := detectByHistory(config)
 	if k == "" { k, s = detectByURL(config) }
 	if k != "" {
@@ -224,8 +203,9 @@ func swapProfile(profileName string, config Config) {
 	setGitConfig("user.email", p.Email)
 	if p.SSHKey != "" {
 		expanded := expandPath(p.SSHKey)
+		// Crucial: Use forward slashes and ensure full absolute path
 		clean := filepath.ToSlash(expanded)
-		sshCmd := fmt.Sprintf("ssh -i \"%s\" -o IdentitiesOnly=yes -F /dev/null", clean)
+		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
 		setGitConfig("core.sshCommand", sshCmd)
 		fmt.Printf("🔑 SSH Key (Expanded): %s\n", clean)
 	} else {
