@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"os/user"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -222,37 +223,87 @@ func autoDetectProfile(config Config) {
 		os.Exit(1)
 	}
 
+	// Strategy 1: History-based detection (Highest Priority)
+	foundKey, foundSource := detectByHistory(config)
+
+	// Strategy 2: URL-based detection (Fallback)
+	if foundKey == "" {
+		foundKey, foundSource = detectByURL(config)
+	}
+
+	if foundKey != "" {
+		fmt.Printf("🔍 Detected via %s: %s%s%s\n", foundSource, ColorCyan, foundKey, ColorReset)
+		swapProfile(foundKey, config)
+	} else {
+		fmt.Printf("%s⚠️  Could not auto-detect a profile for this repository.%s\n", ColorYellow, ColorReset)
+		fmt.Println("Try setting it manually: git-swap <name>")
+	}
+}
+
+func detectByHistory(config Config) (string, string) {
 	cmd := exec.Command("git", "log", "-n", "100", "--format=%ae")
 	output, err := cmd.Output()
 	if err != nil {
-		fmt.Printf("%sNo history found.%s\n", ColorYellow, ColorReset)
-		os.Exit(1)
+		return "", ""
 	}
 
 	emails := strings.Split(strings.TrimSpace(string(output)), "\n")
-	foundKey := ""
-	foundEmail := ""
 	for _, e := range emails {
 		e = strings.TrimSpace(e)
 		if e == "" { continue }
 		for key, p := range config {
 			if strings.EqualFold(p.Email, e) {
-				foundKey = key
-				foundEmail = e
-				break
+				return key, "commit history"
 			}
 		}
-		if foundKey != "" { break }
+	}
+	return "", ""
+}
+
+func detectByURL(config Config) (string, string) {
+	cmd := exec.Command("git", "remote", "-v")
+	output, _ := cmd.Output()
+	lines := strings.Split(string(output), "\n")
+	
+	// Regex to extract username from SSH or HTTPS URLs
+	// Examples: 
+	// git@github.com:Username/repo.git
+	// https://github.com/Username/repo.git
+	re := regexp.MustCompile(`[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+`)
+	
+	usernames := make(map[string]bool)
+	for _, line := range lines {
+		matches := re.FindStringSubmatch(line)
+		if len(matches) > 1 {
+			usernames[matches[1]] = true
+		}
 	}
 
-	if foundKey != "" {
-		fmt.Printf("🔍 Detected your recent activity with email: %s%s%s\n", ColorCyan, foundEmail, ColorReset)
-		fmt.Printf("✨ Matching profile: %s%s%s. Swapping now...\n", ColorGreen, foundKey, ColorReset)
-		swapProfile(foundKey, config)
-	} else {
-		fmt.Printf("%s⚠️  No matching profile found for any recent contributors in this repo.%s\n", ColorYellow, ColorReset)
-		fmt.Println("Use 'git-swap <name>' to set it manually.")
+	if len(usernames) == 0 { return "", "" }
+
+	// Try to match extracted usernames against our config
+	for user := range usernames {
+		// 1. Match against Profile Key
+		for key := range config {
+			if strings.EqualFold(key, user) {
+				return key, "remote URL (profile name match)"
+			}
+		}
+		// 2. Match against Email Prefix
+		for key, p := range config {
+			emailPrefix := strings.Split(p.Email, "@")[0]
+			if strings.EqualFold(emailPrefix, user) {
+				return key, "remote URL (email prefix match)"
+			}
+		}
+		// 3. Match against Profile Name
+		for key, p := range config {
+			if strings.EqualFold(p.Name, user) {
+				return key, "remote URL (user name match)"
+			}
+		}
 	}
+	return "", ""
 }
 
 func showStatus(config Config) {
