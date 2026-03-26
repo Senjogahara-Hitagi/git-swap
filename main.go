@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"time"
 )
 
 // ANSI Color Codes
@@ -61,42 +62,38 @@ func main() {
 
 func getConfigPath() string {
 	fileName := ".git-swap-config.json"
-	exePath, err := os.Executable()
-	if err == nil {
-		exeDir := filepath.Dir(exePath)
-		localPath := filepath.Join(exeDir, fileName)
-		if _, err := os.Stat(localPath); err == nil { return localPath }
-		parentPath := filepath.Join(filepath.Dir(exeDir), fileName)
-		if _, err := os.Stat(parentPath); err == nil { return parentPath }
+	exePath, _ := os.Executable()
+	exeDir := filepath.Dir(exePath)
+	paths := []string{
+		filepath.Join(exeDir, fileName),
+		filepath.Join(filepath.Dir(exeDir), fileName),
+	}
+	for _, p := range paths {
+		if _, err := os.Stat(p); err == nil { return p }
 	}
 	usr, _ := user.Current()
 	return filepath.Join(usr.HomeDir, fileName)
 }
 
 func loadConfig() Config {
-	configPath := getConfigPath()
-	configFile, err := os.ReadFile(configPath)
-	if os.IsNotExist(err) { return make(Config) }
+	configFile, err := os.ReadFile(getConfigPath())
+	if err != nil { return make(Config) }
 	var config Config
 	json.Unmarshal(configFile, &config)
 	return config
 }
 
 func saveConfig(config Config) {
-	configPath := getConfigPath()
 	data, _ := json.MarshalIndent(config, "", "  ")
-	os.WriteFile(configPath, data, 0644)
+	os.WriteFile(getConfigPath(), data, 0644)
 }
 
 func expandPath(path string) string {
 	if path == "" { return "" }
 	re := regexp.MustCompile(`%([^%]+)%`)
 	path = re.ReplaceAllStringFunc(path, func(m string) string {
-		parts := re.FindStringSubmatch(m)
-		if len(parts) > 1 {
-			val := os.Getenv(parts[1])
-			if val != "" { return val }
-		}
+		val := os.Getenv(regexp.MustCompile(`%`).ReplaceAllString(m, ""))
+		if val != "" { return val }
 		return m
 	})
 	path = os.ExpandEnv(path)
@@ -104,14 +101,14 @@ func expandPath(path string) string {
 		usr, _ := user.Current()
 		path = filepath.Join(usr.HomeDir, path[1:])
 	}
-	absPath, err := filepath.Abs(path)
-	if err == nil { return absPath }
+	abs, err := filepath.Abs(path)
+	if err == nil { return abs }
 	return filepath.Clean(path)
 }
 
 func addProfile(key string, config Config) {
 	if reservedCommands[strings.ToLower(key)] {
-		fmt.Printf("%sError: Reserved command.%s\n", ColorRed, ColorReset); os.Exit(1)
+		fmt.Printf("%sError: Reserved name.%s\n", ColorRed, ColorReset); os.Exit(1)
 	}
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Printf("Enter Name: "); n, _ := reader.ReadString('\n')
@@ -119,20 +116,20 @@ func addProfile(key string, config Config) {
 	fmt.Printf("Enter SSH Key Path (Optional): "); s, _ := reader.ReadString('\n')
 	fmt.Printf("Enter Signing Key (Optional): "); k, _ := reader.ReadString('\n')
 	config[key] = Profile{strings.TrimSpace(n), strings.TrimSpace(e), strings.TrimSpace(s), strings.TrimSpace(k)}
-	saveConfig(config); fmt.Printf("%s✅ Added! (%s)%s\n", ColorGreen, getConfigPath(), ColorReset)
+	saveConfig(config); fmt.Printf("%s✅ Added!%s\n", ColorGreen, ColorReset)
 }
 
 func editProfile(key string, config Config) {
 	p, ok := config[key]
-	if !ok { fmt.Printf("%sNot found.%s\n", ColorRed, ColorReset); os.Exit(1) }
+	if !ok { os.Exit(1) }
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("Enter Name [%s]: ", p.Name); n, _ := reader.ReadString('\n'); n = strings.TrimSpace(n)
+	fmt.Printf("Name [%s]: ", p.Name); n, _ := reader.ReadString('\n'); n = strings.TrimSpace(n)
 	if n != "" { p.Name = n }
-	fmt.Printf("Enter Email [%s]: ", p.Email); e, _ := reader.ReadString('\n'); e = strings.TrimSpace(e)
+	fmt.Printf("Email [%s]: ", p.Email); e, _ := reader.ReadString('\n'); e = strings.TrimSpace(e)
 	if e != "" { p.Email = e }
-	fmt.Printf("Enter SSH Key Path [%s]: ", p.SSHKey); s, _ := reader.ReadString('\n'); s = strings.TrimSpace(s)
+	fmt.Printf("SSH Key [%s]: ", p.SSHKey); s, _ := reader.ReadString('\n'); s = strings.TrimSpace(s)
 	if s != "" { p.SSHKey = s }
-	fmt.Printf("Enter Signing Key [%s]: ", p.SigningKey); k, _ := reader.ReadString('\n'); k = strings.TrimSpace(k)
+	fmt.Printf("Signing Key [%s]: ", p.SigningKey); k, _ := reader.ReadString('\n'); k = strings.TrimSpace(k)
 	if k != "" { p.SigningKey = k }
 	config[key] = p; saveConfig(config); fmt.Printf("%s✅ Updated!%s\n", ColorGreen, ColorReset)
 }
@@ -149,20 +146,10 @@ func listProfiles(config Config) {
 }
 
 func autoDetectProfile(config Config) {
-	if _, err := os.Stat(".git"); os.IsNotExist(err) { fmt.Printf("%sNot a repo.%s\n", ColorRed, ColorReset); os.Exit(1) }
-	
-	// Priority 1: Remote PUSH URL (Strongest signal)
+	if _, err := os.Stat(".git"); os.IsNotExist(err) { fmt.Printf("%sNot a git repo.%s\n", ColorRed, ColorReset); os.Exit(1) }
 	k, s := detectByURL(config, true)
-	
-	// Priority 2: History (Habit signal)
-	if k == "" {
-		k, s = detectByHistory(config)
-	}
-	
-	// Priority 3: Remote FETCH URL (Fallback)
-	if k == "" {
-		k, s = detectByURL(config, false)
-	}
+	if k == "" { k, s = detectByHistory(config) }
+	if k == "" { k, s = detectByURL(config, false) }
 
 	if k != "" {
 		fmt.Printf("🔍 Detected via %s: %s%s%s\n", s, ColorCyan, k, ColorReset)
@@ -185,22 +172,14 @@ func detectByHistory(config Config) (string, string) {
 func detectByURL(config Config, preferPush bool) (string, string) {
 	out, _ := exec.Command("git", "remote", "-v").Output()
 	lines := strings.Split(string(out), "\n")
-	
 	re := regexp.MustCompile(`[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+\((push|fetch)\)`)
-	
-	sourceLabel := "remote URL"
-	if preferPush { sourceLabel = "remote PUSH URL" }
-
 	for _, line := range lines {
-		matches := re.FindStringSubmatch(line)
-		if len(matches) > 2 {
-			isPush := matches[2] == "push"
-			if preferPush != isPush { continue }
-			
-			user := matches[1]
+		m := re.FindStringSubmatch(line)
+		if len(m) > 2 {
+			if preferPush != (m[2] == "push") { continue }
 			for key, p := range config {
-				if strings.EqualFold(key, user) || strings.EqualFold(strings.Split(p.Email, "@")[0], user) || strings.EqualFold(p.Name, user) {
-					return key, sourceLabel
+				if strings.EqualFold(key, m[1]) || strings.EqualFold(strings.Split(p.Email, "@")[0], m[1]) || strings.EqualFold(p.Name, m[1]) {
+					return key, "remote " + m[2] + " URL"
 				}
 			}
 		}
@@ -220,19 +199,26 @@ func showStatus(config Config) {
 func swapProfile(profileName string, config Config) {
 	p, ok := config[profileName]
 	if !ok { fmt.Printf("%sNot found.%s\n", ColorRed, ColorReset); os.Exit(1) }
-	setGitConfig("user.name", p.Name)
-	setGitConfig("user.email", p.Email)
+
+	// Use robust setter to avoid Windows lock issues
+	if err := setGitConfig("user.name", p.Name); err != nil { fmt.Printf("%sFailed: %v%s\n", ColorRed, err, ColorReset); os.Exit(1) }
+	if err := setGitConfig("user.email", p.Email); err != nil { fmt.Printf("%sFailed: %v%s\n", ColorRed, err, ColorReset); os.Exit(1) }
+
 	if p.SSHKey != "" {
 		expanded := expandPath(p.SSHKey)
 		clean := filepath.ToSlash(expanded)
 		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
-		setGitConfig("core.sshCommand", sshCmd)
-		fmt.Printf("🔑 SSH Key (Expanded): %s\n", clean)
+		if err := setGitConfig("core.sshCommand", sshCmd); err != nil {
+			fmt.Printf("%sFailed to set SSH key: %v%s\n", ColorRed, err, ColorReset); os.Exit(1)
+		}
+		fmt.Printf("🔑 SSH Key: %s\n", clean)
 	} else {
 		unsetGitConfig("core.sshCommand")
 	}
+
 	if p.SigningKey != "" {
-		setGitConfig("user.signingkey", p.SigningKey); setGitConfig("commit.gpgsign", "true")
+		setGitConfig("user.signingkey", p.SigningKey)
+		setGitConfig("commit.gpgsign", "true")
 		if strings.HasPrefix(p.SigningKey, "ssh-") { setGitConfig("gpg.format", "ssh") } else { unsetGitConfig("gpg.format") }
 	} else {
 		unsetGitConfig("user.signingkey"); setGitConfig("commit.gpgsign", "false"); unsetGitConfig("gpg.format")
@@ -240,10 +226,23 @@ func swapProfile(profileName string, config Config) {
 	fmt.Printf("%s✅ Swapped to: %s%s\n", ColorGreen, profileName, ColorReset)
 }
 
-func setGitConfig(key, value string) { exec.Command("git", "config", "--local", key, value).Run() }
+// setGitConfig runs git config with retries to handle Windows file locking
+func setGitConfig(key, value string) error {
+	var lastErr error
+	for i := 0; i < 5; i++ {
+		cmd := exec.Command("git", "config", "--local", key, value)
+		if err := cmd.Run(); err == nil {
+			return nil
+		} else {
+			lastErr = err
+			time.Sleep(100 * time.Millisecond) // Wait for lock to release
+		}
+	}
+	return fmt.Errorf("git config error (lock?): %v", lastErr)
+}
+
 func unsetGitConfig(key string) { exec.Command("git", "config", "--local", "--unset", key).Run() }
 
 func printUsage() {
-	fmt.Println("git-swap: Manage git identities directly from CLI.")
-	fmt.Println("\nUsage:\n  list, status, auto, add, edit, remove, <profile-name>")
+	fmt.Println("git-swap: Manage git identities.\nUsage: list, status, auto, add, edit, remove, <name>")
 }
