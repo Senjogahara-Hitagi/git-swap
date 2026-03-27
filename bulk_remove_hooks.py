@@ -24,6 +24,10 @@ def remove_hook_in_repo(repo_path):
     except Exception as e:
         print(f"  ⚠️ Error executing git-swap: {e}")
 
+SYSTEM_EXCLUDE = {
+    "System Volume Information", "$RECYCLE.BIN", "Config.Msi", "RECYCLE.BIN", "Recovery", "Windows", "AppData"
+}
+
 def scan_and_remove(base_paths):
     found_repos = []
     for base_path in base_paths:
@@ -33,13 +37,27 @@ def scan_and_remove(base_paths):
             continue
         
         print(f"🔍 Scanning: {base_path}...")
-        for root, dirs, files in os.walk(base_path):
+        
+        # Check root itself
+        if os.path.exists(os.path.join(base_path, ".git")):
+            found_repos.append(base_path)
+            remove_hook_in_repo(base_path)
+            
+        for root, dirs, files in os.walk(base_path, topdown=True):
+            # Fast filter
+            new_dirs = []
+            for d in dirs:
+                if d in SYSTEM_EXCLUDE or d.startswith('$'):
+                    continue
+                new_dirs.append(d)
+            dirs[:] = new_dirs
+
             if ".git" in dirs:
                 repo_path = os.path.abspath(root)
-                found_repos.append(repo_path)
-                # Don't recurse into .git subdirectories
+                if repo_path not in found_repos:
+                    found_repos.append(repo_path)
+                    remove_hook_in_repo(repo_path)
                 dirs.remove(".git")
-                remove_hook_in_repo(repo_path)
     
     print("\n" + "="*30)
     print(f"🏁 Done! Total Git repos found and processed: {len(found_repos)}")
