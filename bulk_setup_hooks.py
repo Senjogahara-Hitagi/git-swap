@@ -11,16 +11,19 @@ def setup_hook_in_repo(repo_path):
     try:
         # Run git-swap setup-hook inside the target directory
         result = subprocess.run(
-            ["git-swap", "setup-hook"],
+            "git-swap setup-hook",
             cwd=repo_path,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
             shell=True
         )
         if result.returncode == 0:
-            print(f"  ✅ Success: {result.stdout.strip()}")
+            out = result.stdout.strip() if result.stdout else ""
+            print(f"  ✅ Success: {out}")
         else:
-            print(f"  ❌ Failed: {result.stderr.strip()}")
+            err = result.stderr.strip() if result.stderr else ""
+            print(f"  ❌ Failed: {err}")
     except Exception as e:
         print(f"  ⚠️ Error executing git-swap: {e}")
 
