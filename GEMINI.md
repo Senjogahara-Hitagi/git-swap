@@ -24,11 +24,14 @@ After building, you can run the binary directly:
 
 ### Common Commands
 - `git-swap list`: Show all configured profiles.
-- `git-swap status`: Display the current Git identity active in the local repository.
+- `git-swap status` (or `current`): Display the current Git identity active in the local repository.
 - `git-swap add <name>`: Create a new profile interactively.
 - `git-swap edit <name>`: Modify an existing profile.
 - `git-swap remove <name>`: Delete a profile.
 - `git-swap <name>`: Apply the specified profile to the current repository (requires `.git` directory).
+- `git-swap setup-hook`: Install 'auto' pre-commit hook in the current repository.
+- `git-swap remove-hook`: Remove the pre-commit hook from the current repository.
+- `git-swap auto`: Auto-detect and apply profile based on remote/history.
 
 ## Development Conventions
 
