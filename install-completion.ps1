@@ -18,8 +18,8 @@ $completionCode = @"
     `$nElements = `$commandElements.Count
     
     if (`$nElements -le 2) {
-        # Added convert-ssh to the list of commands
-        `$commands = @('list', 'status', 'add', 'edit', 'remove', 'rm', 'auto', 'setup-hook', 'convert-ssh', 'help')
+        # Added convert-ssh, current, and remove-hook to the list of commands
+        `$commands = @('list', 'status', 'current', 'add', 'edit', 'remove', 'rm', 'auto', 'setup-hook', 'remove-hook', 'convert-ssh', 'help')
         `$profiles = & git-swap _complete 2>`$null
         `$indices = @()
         if (`$profiles) { for (`$i = 1; `$i -le `$profiles.Count; `$i++) { `$indices += [string]`$i } }
