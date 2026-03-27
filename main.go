@@ -34,7 +34,7 @@ type Profile struct {
 type Config map[string]Profile
 
 var reservedCommands = map[string]bool{
-	"list": true, "status": true, "add": true, "edit": true, "remove": true, "rm": true, "auto": true, "help": true, "_complete": true,
+	"list": true, "status": true, "add": true, "edit": true, "remove": true, "rm": true, "auto": true, "help": true, "_complete": true, "setup-hook": true,
 }
 
 func main() {
@@ -42,13 +42,11 @@ func main() {
 	command := os.Args[1]
 	config := loadConfig()
 
-	// 1. Try numeric swap first
 	if idx, err := strconv.Atoi(command); err == nil {
 		swapProfileByIndex(idx, config)
 		return
 	}
 
-	// 2. Standard command dispatch
 	switch command {
 	case "list": listProfiles(config)
 	case "status": showStatus(config)
@@ -62,6 +60,7 @@ func main() {
 		if len(os.Args) < 3 { fmt.Println("Usage: git-swap remove <name>"); os.Exit(1) }
 		removeProfile(os.Args[2], config)
 	case "auto": autoDetectProfile(config)
+	case "setup-hook": setupGitHook()
 	case "_complete":
 		for k := range config { fmt.Println(k) }
 	case "help": printUsage()
@@ -110,37 +109,30 @@ func expandPath(path string) string {
 		usr, _ := user.Current()
 		path = filepath.Join(usr.HomeDir, path[1:])
 	}
-	abs, _ := filepath.Abs(path)
-	return filepath.ToSlash(abs)
+	abs, err := filepath.Abs(path)
+	if err == nil { return filepath.ToSlash(abs) }
+	return filepath.ToSlash(filepath.Clean(path))
 }
 
 func addProfile(key string, config Config) {
 	if reservedCommands[strings.ToLower(key)] {
-		fmt.Printf("%sError: Reserved command name.%s\n", ColorRed, ColorReset); os.Exit(1)
+		fmt.Printf("%sError: Reserved command.%s\n", ColorRed, ColorReset); os.Exit(1)
 	}
-	// Forbidden purely numeric names
 	if _, err := strconv.Atoi(key); err == nil {
-		fmt.Printf("%sError: Profile name cannot be a number.%s\n", ColorRed, ColorReset); os.Exit(1)
+		fmt.Printf("%sError: Cannot be a number.%s\n", ColorRed, ColorReset); os.Exit(1)
 	}
-
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf("Enter Name: "); name, _ := reader.ReadString('\n')
-	fmt.Printf("Enter Email: "); email, _ := reader.ReadString('\n')
-	fmt.Printf("Enter SSH Key Path (Optional): "); sshKey, _ := reader.ReadString('\n')
-	fmt.Printf("Enter Signing Key (Optional): "); signingKey, _ := reader.ReadString('\n')
-
-	config[key] = Profile{
-		Name:       strings.TrimSpace(name),
-		Email:      strings.TrimSpace(email),
-		SSHKey:     strings.TrimSpace(sshKey),
-		SigningKey: strings.TrimSpace(signingKey),
-	}
+	fmt.Printf("Enter Name: "); n, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Email: "); e, _ := reader.ReadString('\n')
+	fmt.Printf("Enter SSH Key Path: "); s, _ := reader.ReadString('\n')
+	fmt.Printf("Enter Signing Key: "); k, _ := reader.ReadString('\n')
+	config[key] = Profile{strings.TrimSpace(n), strings.TrimSpace(e), strings.TrimSpace(s), strings.TrimSpace(k)}
 	saveConfig(config); fmt.Printf("%s✅ Added!%s\n", ColorGreen, ColorReset)
 }
 
 func editProfile(key string, config Config) {
 	p, ok := config[key]
-	if !ok { fmt.Printf("%sProfile '%s' not found.%s\n", ColorRed, key, ColorReset); os.Exit(1) }
+	if !ok { fmt.Printf("%sNot found.%s\n", ColorRed, ColorReset); os.Exit(1) }
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Printf("Name [%s]: ", p.Name); n, _ := reader.ReadString('\n'); n = strings.TrimSpace(n)
 	if n != "" { p.Name = n }
@@ -154,7 +146,6 @@ func editProfile(key string, config Config) {
 }
 
 func removeProfile(key string, config Config) {
-	if _, ok := config[key]; !ok { fmt.Printf("%sNot found.%s\n", ColorRed, ColorReset); os.Exit(1) }
 	delete(config, key); saveConfig(config); fmt.Printf("%s✅ Removed!%s\n", ColorGreen, ColorReset)
 }
 
@@ -166,7 +157,7 @@ func getSortedKeys(config Config) []string {
 }
 
 func listProfiles(config Config) {
-	if len(config) == 0 { fmt.Println("No profiles. Use 'add' to create one."); return }
+	if len(config) == 0 { fmt.Println("No profiles."); return }
 	fmt.Println("Available Identities:")
 	keys := getSortedKeys(config)
 	for i, k := range keys {
@@ -177,8 +168,7 @@ func listProfiles(config Config) {
 func swapProfileByIndex(idx int, config Config) {
 	keys := getSortedKeys(config)
 	if idx < 1 || idx > len(keys) {
-		fmt.Printf("%sError: Index %d is out of range (1-%d).%s\n", ColorRed, idx, len(keys), ColorReset)
-		os.Exit(1)
+		fmt.Printf("%sError: Index out of range.%s\n", ColorRed, ColorReset); os.Exit(1)
 	}
 	swapProfile(keys[idx-1], config)
 }
@@ -208,9 +198,10 @@ func detectByHistory(config Config) (string, string) {
 
 func detectByURL(config Config, preferPush bool) (string, string) {
 	out, _ := exec.Command("git", "remote", "-v").Output()
+	lines := strings.Split(string(out), "\n")
 	re := regexp.MustCompile(`[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+\((push|fetch)\)`)
-	matches := re.FindAllStringSubmatch(string(out), -1)
-	for _, m := range matches {
+	for _, line := range lines {
+		m := re.FindStringSubmatch(line)
 		if len(m) > 2 {
 			if preferPush != (m[2] == "push") { continue }
 			for key, p := range config {
@@ -234,11 +225,11 @@ func showStatus(config Config) {
 
 func swapProfile(profileName string, config Config) {
 	p, ok := config[profileName]
-	if !ok { fmt.Printf("%sProfile '%s' not found.%s\n", ColorRed, profileName, ColorReset); os.Exit(1) }
+	if !ok { fmt.Printf("%sNot found.%s\n", ColorRed, ColorReset); os.Exit(1) }
 	setGitConfig("user.name", p.Name)
 	setGitConfig("user.email", p.Email)
 	if p.SSHKey != "" {
-		clean := filepath.ToSlash(expandPath(p.SSHKey))
+		clean := expandPath(p.SSHKey)
 		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
 		setGitConfig("core.sshCommand", sshCmd)
 		fmt.Printf("🔑 SSH Key: %s\n", clean)
@@ -265,6 +256,23 @@ func setGitConfig(key, value string) error {
 
 func unsetGitConfig(key string) { exec.Command("git", "config", "--local", "--unset", key).Run() }
 
+func setupGitHook() {
+	if _, err := os.Stat(".git"); os.IsNotExist(err) {
+		fmt.Printf("%sError: Not a git repository.%s\n", ColorRed, ColorReset); os.Exit(1)
+	}
+	hookPath := filepath.Join(".git", "hooks", "pre-commit")
+	
+	// Hook content (shell script that calls git-swap auto)
+	content := "#!/bin/sh\n# git-swap auto-swapper hook\ngit-swap auto\n"
+	
+	err := os.WriteFile(hookPath, []byte(content), 0755)
+	if err != nil {
+		fmt.Printf("%sError creating hook: %v%s\n", ColorRed, err, ColorReset); os.Exit(1)
+	}
+	fmt.Printf("%s✅ Git pre-commit hook installed successfully!%s\n", ColorGreen, ColorReset)
+	fmt.Println("Now git-swap auto will run automatically before every commit.")
+}
+
 func printUsage() {
-	fmt.Println("git-swap: Manage git identities.\nUsage: list, status, auto, add, edit, remove, <name/index>")
+	fmt.Println("git-swap: Manage git identities.\nUsage: list, status, auto, setup-hook, add, edit, remove, <name/index>")
 }
