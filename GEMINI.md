@@ -13,7 +13,7 @@
 ### Build from Source
 To build the binary locally, you need Go installed:
 ```bash
-go build -o git-swap main.go
+go build -o bin/git-swap.exe main.go
 ```
 
 ### Running the Tool

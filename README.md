@@ -44,8 +44,7 @@ If you prefer to build it yourself:
 ```bash
 git clone https://github.com/abdozkaya/git-swap.git
 cd git-swap
-go build -o git-swap main.go
-sudo mv git-swap /usr/local/bin/
+go build -o bin/git-swap.exe main.go
 ```
 ---
 
