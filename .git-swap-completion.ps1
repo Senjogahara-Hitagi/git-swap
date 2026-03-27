@@ -28,3 +28,5 @@ $GitSwapCompleter = {
     return $null
 }
 Register-ArgumentCompleter -Native -CommandName 'git-swap' -ScriptBlock $GitSwapCompleter
+
+Register-ArgumentCompleter -Native -CommandName 'gsw' -ScriptBlock $GitSwapCompleter
