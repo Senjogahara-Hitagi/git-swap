@@ -16,5 +16,17 @@
     "email": "mayone088@gmail.com",
     "ssh_key": "%USERPROFILE%\\.ssh\\id_ed25519_acc3",
     "signing_key": ""
+  },
+  "test2": {
+    "name": "test2",
+    "email": "upstream@example.com",
+    "ssh_key": "",
+    "signing_key": ""
+  },
+  "testprofile": {
+    "name": "test",
+    "email": "test@example.com",
+    "ssh_key": "C:\\nonexistent.key",
+    "signing_key": ""
   }
 }
