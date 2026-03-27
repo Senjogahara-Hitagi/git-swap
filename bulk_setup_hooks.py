@@ -2,14 +2,30 @@ import os
 import subprocess
 import argparse
 import sys
+from datetime import datetime
+
+SYSTEM_EXCLUDE = {
+    "System Volume Information", "$RECYCLE.BIN", "Config.Msi", "RECYCLE.BIN", "Recovery", "Windows", "AppData"
+}
 
 def is_git_repo(path):
     return os.path.exists(os.path.join(path, ".git"))
 
-def setup_hook_in_repo(repo_path):
-    print(f"📦 Processing: {repo_path}")
+def check_hook_exists(repo_path):
+    hook_path = os.path.join(repo_path, ".git", "hooks", "pre-commit")
+    if not os.path.exists(hook_path):
+        return False
     try:
-        # Run git-swap setup-hook inside the target directory
+        with open(hook_path, "r", encoding="utf-8") as f:
+            return "git-swap auto-swapper hook" in f.read()
+    except Exception:
+        return False
+
+def process_repo(repo_path):
+    if check_hook_exists(repo_path):
+        return "ALREADY_SETUP", ["  ℹ️  Hook already installed."]
+
+    try:
         result = subprocess.run(
             "git-swap setup-hook",
             cwd=repo_path,
@@ -20,63 +36,95 @@ def setup_hook_in_repo(repo_path):
         )
         if result.returncode == 0:
             out = result.stdout.strip() if result.stdout else ""
-            print(f"  ✅ Success: {out}")
+            return "SUCCESS", [f"  ✅ {out}"]
         else:
             err = result.stderr.strip() if result.stderr else ""
-            print(f"  ❌ Failed: {err}")
+            return "FAILED", [f"  ❌ {err}"]
     except Exception as e:
-        print(f"  ⚠️ Error executing git-swap: {e}")
+        return "FAILED", [f"  ⚠️ Error executing git-swap: {e}"]
 
-SYSTEM_EXCLUDE = {
-    "System Volume Information", "$RECYCLE.BIN", "Config.Msi", "RECYCLE.BIN", "Recovery", "Windows", "AppData"
-}
-
-def scan_and_setup(base_paths):
-    found_repos = []
-    for base_path in base_paths:
-        base_path = os.path.expandvars(os.path.expanduser(base_path))
-        if not os.path.exists(base_path):
-            print(f"⚠️ Path not found: {base_path}")
-            continue
-        
-        print(f"🔍 Scanning: {base_path}...")
-        
-        # Check root itself
-        if os.path.exists(os.path.join(base_path, ".git")):
-            found_repos.append(base_path)
-            setup_hook_in_repo(base_path)
-
-        for root, dirs, files in os.walk(base_path, topdown=True):
-            # Fast filter
-            new_dirs = []
-            for d in dirs:
-                if d in SYSTEM_EXCLUDE or d.startswith('$'):
-                    continue
-                new_dirs.append(d)
-            dirs[:] = new_dirs
-
-            if ".git" in dirs:
-                repo_path = os.path.abspath(root)
-                if repo_path not in found_repos:
-                    found_repos.append(repo_path)
-                    setup_hook_in_repo(repo_path)
-                dirs.remove(".git")
+def fast_scan(root):
+    repos = []
+    print(f"🚀 Scanning root: {root}")
     
-    print("\n" + "="*30)
-    print(f"🏁 Done! Total Git repos found and processed: {len(found_repos)}")
-    print("="*30)
+    if os.path.exists(os.path.join(root, ".git")):
+        repos.append(root)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Bulk install git-swap setup-hook in all git repos under specified paths.")
+    for dirpath, dirnames, filenames in os.walk(root, topdown=True):
+        new_dirs = []
+        for d in dirnames:
+            if d.strip() in SYSTEM_EXCLUDE or d.startswith('$'):
+                continue
+            new_dirs.append(d)
+        dirnames[:] = new_dirs
+        
+        if '.git' in dirnames:
+            repos.append(dirpath)
+            # 找到 .git 就不再递归进入此目录内部
+            dirnames.remove('.git')
+            
+    return repos
+
+def main():
+    parser = argparse.ArgumentParser(description="Bulk install git-swap auto hook in all git repos under specified paths.")
     parser.add_argument("paths", nargs="+", help="Paths to scan for Git repositories")
-    
     args = parser.parse_args()
     
-    # Check if git-swap is available in PATH
     try:
         subprocess.run(["git-swap", "help"], capture_output=True, shell=True)
     except FileNotFoundError:
-        print("❌ Error: 'git-swap' command not found in PATH. Please make sure bin\\git-swap.exe is in your PATH.")
+        print("❌ Error: 'git-swap' command not found in PATH. Please make sure git-swap is in your PATH.")
         sys.exit(1)
 
-    scan_and_setup(args.paths)
+    all_repos = []
+    for root_path in args.paths:
+        root_path = os.path.expandvars(os.path.expanduser(root_path))
+        if not os.path.exists(root_path):
+            print(f"⚠️  Path not found: {root_path}")
+            continue
+        all_repos.extend(fast_scan(root_path))
+
+    report_lines = [
+        f"Git-Swap Bulk Hook Setup Report",
+        f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"Scanned Roots: {', '.join(args.paths)}",
+        "=" * 60,
+        ""
+    ]
+    
+    stats = {"SUCCESS": 0, "ALREADY_SETUP": 0, "FAILED": 0}
+    
+    print(f"\n📊 Found {len(all_repos)} repositories. Processing...\n")
+    
+    for repo in all_repos:
+        status, details = process_repo(repo)
+        stats[status] += 1
+        
+        line = f"📁 Repo: {repo} [{status}]"
+        print(line)
+        report_lines.append(line)
+        for d in details:
+            report_lines.append(d)
+        report_lines.append("")
+
+    summary = [
+        "-" * 60,
+        "🎉 Summary Report:",
+        f"✅ Successfully setup: {stats['SUCCESS']}",
+        f"ℹ️  Already installed: {stats['ALREADY_SETUP']}",
+        f"❌ Failed: {stats['FAILED']}",
+        f"📁 Total Repositories Found: {len(all_repos)}",
+        "-" * 60
+    ]
+    
+    for s in summary:
+        print(s)
+        report_lines.append(s)
+
+    with open("setup_hooks_report.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(report_lines))
+    
+    print(f"\n📄 Detailed report saved to: {os.path.abspath('setup_hooks_report.txt')}")
+
+if __name__ == "__main__":
+    main()
