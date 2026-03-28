@@ -4,7 +4,7 @@ $GitSwapCompleter = {
     $commandElements = $commandAst.CommandElements
     $nElements = $commandElements.Count
     if ($nElements -le 2) {
-        $commands = @('list', 'status', 'add', 'edit', 'remove', 'rm', 'auto', 'setup-hook', 'help')
+        $commands = @('list', 'status', 'current', 'add', 'edit', 'remove', 'rm', 'auto', 'setup-hook', 'remove-hook', 'convert-ssh', 'help')
         $profiles = & git-swap _complete 2>$null
         $indices = @()
         if ($profiles) { for ($i = 1; $i -le $profiles.Count; $i++) { $indices += [string]$i } }

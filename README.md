@@ -15,9 +15,27 @@ It handles not just `user.name` and `user.email`, but also manages project-speci
 * **⚡️ Instant Switch:** Change identity locally for the current repository without affecting global settings.
 * **🔑 SSH Key Management:** Automatically sets specific SSH keys for specific profiles.
 * **🔏 Commit Signing:** Supports GPG and SSH signing keys. Auto-enables signing per profile.
-* **🛠 CLI Managed:** No manual JSON editing needed. Add, edit, and remove profiles interactively.
-* **👀 Status Check:** Verify which profile is currently active in your repo.
-* **📦 Cross-Platform:** Works on macOS, Linux, and Windows.
+* **🤖 Auto Detection:** Improved `auto` command to detect and apply profiles based on git remote/history.
+* **🔗 Hook System:** `setup-hook` allows automatic profile switching via pre-commit hooks.
+* **🔄 HTTPS to SSH:** `convert-ssh` command to easily migrate remotes from HTTPS to SSH format.
+* **👀 Status Check:** Enhanced `status` command (alias `current`) with SSH validation.
+* **📦 Cross-Platform:** Works on macOS, Linux, and Windows with PowerShell completion support.
+
+---
+
+## 🍴 Why this Fork?
+
+This fork of `git-swap` focuses on automation and robustness for developers managing many repositories.
+
+| Feature | Official Repo | This Fork |
+| :--- | :---: | :---: |
+| SSH / GPG Management | ✅ | ✅ |
+| Interactive Setup | ✅ | ✅ |
+| **`git-swap auto`** | Basic | **Improved (Remote Priority)** |
+| **`git-swap setup-hook`** | ❌ | **✅ (Automatic Switching)** |
+| **`git-swap convert-ssh`** | ❌ | **✅ (HTTPS to SSH Migrate)** |
+| **`git-swap current`** | ❌ | **✅ (Alias for Status)** |
+| **PowerShell Completion** | ❌ | **✅ (Tab-to-complete)** |
 
 ---
 
@@ -78,9 +96,22 @@ git-swap work
 ### 4. Check Status
 Not sure which identity is active in the current folder?
 ```bash
-git-swap status
+git-swap current  # or 'status'
 ```
-### 5. Edit or Remove
+
+### 5. Automation (Hooks)
+Tired of manually swapping? Install a pre-commit hook that warns you if your identity doesn't match the project.
+```bash
+git-swap setup-hook
+```
+
+### 6. Convert Remotes
+Easily migrate your HTTPS GitHub remotes to SSH format to work seamlessly with `git-swap` SSH keys.
+```bash
+git-swap convert-ssh
+```
+
+### 7. Edit or Remove
 Update an existing profile or delete one.
 
 # Update details

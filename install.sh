@@ -52,3 +52,9 @@ fi
 
 echo -e "${GREEN}✅ git-swap installed successfully!${NC}"
 echo "Run 'git-swap help' to get started."
+
+echo -e "\n✨ ${GREEN}Fork Features:${NC}"
+echo " - 'git-swap auto': Improved profile detection (remote-priority)"
+echo " - 'git-swap setup-hook': Auto-switch profiles via pre-commit hook"
+echo " - 'git-swap convert-ssh': Easily migrate remotes from HTTPS to SSH"
+echo " - 'git-swap current': Useful alias for checking current status"

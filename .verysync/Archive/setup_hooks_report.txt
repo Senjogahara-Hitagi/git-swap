@@ -1,0 +1,333 @@
+Git-Swap Bulk Hook Setup Report
+Timestamp: 2026-03-28 17:50:25
+Scanned Roots: D:\, E:\
+============================================================
+
+📁 Repo: D:\C2D\Desktop\Code\.verysync\Archive\Powershell\Path_reg [SUCCESS]
+  ✅ 
+
+📁 Repo: D:\C2D\Desktop\Code\.verysync\Archive\Python\projects\youtube-livechat-sync [SUCCESS]
+  ✅ 
+
+📁 Repo: D:\C2D\Desktop\Code\.verysync\Archive\Rust\DDTank\ddtank_egui [SUCCESS]
+  ✅ 
+
+📁 Repo: D:\C2D\Desktop\Code\C++\1A2B_3C_4A5B [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\C++\3_books_with_cpp [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia__0.0-0.5_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia__0.5-1.0_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia__1.0-1.5_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia__1.5-2.0_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia__2.0-2.5_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_academia__2.5-3.0_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\PhD_activities [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\postgraduate_academia [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\postgraduate_academia__0.0-1.0_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\postgraduate_academia__1.0-1.5_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\postgraduate_academia__1.5-2.0_year [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\postgraduate_activities [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\postgraduate_courses [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\senior-high-school_activities [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\undergraduate_activities [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Document\undergraduate_courses [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\EPL\Hanging_Assist__for__Dueling_City [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\EPL\Stardust_DDTank [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\chunkie [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\CMake\finufft\out\build\x64-debug\_deps\findfftw-src [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\CMake\finufft\out\build\x64-debug\_deps\finufft-src [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\cufinufft [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\finufft [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\finufft\build\_deps\findfftw-src [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\fmm3dbie [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\sinctransform [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Flatiron\surfacefun [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Go\0.NLAST\src\NLAST_go [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\ini\rulesmd.ini [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Julia\nlast_jl [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\test\11.Berry_Mcleod_paper__private__存档_Archive\6.sn-article-template_backref_problem [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\TexStudio\0.njuthesis\NJU_thesis_doctor__xcz [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\TexStudio\1.berry_AST\Berry_Mcleod_paper__private [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\TexStudio\1.berry_AST\geometric_optics_2_discrete_mathematics [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\TexStudio\2.scalar_NLAST\NLAST_scalar_paper__private [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\TexStudio\CV2_xcz [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Latex\TexStudio\CV_xcz [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Lua\inputMethod\rime-fast-xhup [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Lua\inputMethod\rime-JDhe [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Lua\inputMethod\rime-moqi-wanxiang-schemas [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Lua\inputMethod\rime-wanxiang-update-tools [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Lua\inputMethod\rime-wanxiang-updater [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Powershell\Path_reg [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Powershell\Tana WX [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\BatchED [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\projects\drag_build_package [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\projects\Font_Merger [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\projects\package_control_channel [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\projects\QuickLineNavigator [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\projects\youtube-livechat-sync [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\PyDMD [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\SPDCinv [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.3.存档3 [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名中，存档0 [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名后，存档1 [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\generate.cif [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST_private [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\DDTank\ddtank_egui [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\DDTank\ddtank_flutter [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\DDTank\test [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\DDTank\test\tmp_overlay [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\DDTank\ui_agent_tools [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\egui [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\egui-state-machine [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\egui_graphs [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\halo [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\nlast-rs [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Rust\simuverse [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\TypeScript\HHH_theme [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Web\offline_web_pages [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Web\ray_optics__xcz [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\Code\Web\tantalum_xcz [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\SB [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Desktop\SB_space [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\C2D\Documents\rime-snow-pinyin [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\Julia\.julia\packages\Makie\pr2944\Makie.jl [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\Rust\.cargo\git\checkouts\egui-5e4507fa4153be06\d856f7b [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\Rust\.cargo\git\checkouts\fdg-def9d7fa6d420720\50755f1 [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\Rust\.cargo\git\checkouts\glyphon-bce1d8fb6a1f7cb1\2caa9fc [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\Rust\.cargo\git\checkouts\iced-f01cba4d5e61fd0a\100d15f [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\Rust\.cargo\git\checkouts\winit-57d3141eaf559308\c52db20 [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: D:\screenshot_tool [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Antigravity-Tools [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\CLIProxyAPI [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Gemini-CLI-Auth-Manager [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Gemini-Crab\astrobot\plugins\astrbot_plugin_hapi_connector [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Gemini-Crab\clibot\clibot-repo [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Gemini-Crab\ductor\ductor-repo [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Gemini-Crab\ttyd\ttyd-repo [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\OpenCode\dnplayer-test [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\OpenCode\dnplayer-test\.verysync\Archive [SUCCESS]
+  ✅ 
+
+📁 Repo: E:\MCP\Projects\GitHub-Switch\git-swap [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Projects\GitHub-Switch\git-swap\.verysync\Archive [SUCCESS]
+  ✅ 
+
+📁 Repo: E:\MCP\Projects\wechat-decrypt [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\MCP\Projects\YTLiveChat [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\Runtime\Flutter_SDK\flutter [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+📁 Repo: E:\Text_editor\SublimeText\Data\Packages\User [ALREADY_SETUP]
+  ℹ️  Hook already installed.
+
+------------------------------------------------------------
+🎉 Summary Report:
+✅ Successfully setup: 5
+ℹ️  Already installed: 102
+❌ Failed: 0
+📁 Total Repositories Found: 107
+------------------------------------------------------------

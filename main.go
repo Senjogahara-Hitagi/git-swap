@@ -121,17 +121,6 @@ func printUsage() {
 
 func getConfigPath() string {
 	fileName := ".git-swap-config.json"
-	exePath, _ := os.Executable()
-	exeDir := filepath.Dir(exePath)
-	paths := []string{
-		filepath.Join(exeDir, fileName),
-		filepath.Join(filepath.Dir(exeDir), fileName),
-	}
-	for _, p := range paths {
-		if _, err := os.Stat(p); err == nil {
-			return p
-		}
-	}
 	usr, _ := user.Current()
 	return filepath.Join(usr.HomeDir, fileName)
 }
@@ -472,34 +461,54 @@ func setupGitHook() {
 	}
 	
 	hookPath := filepath.Join(hooksDir, "pre-commit")
-	exePath, err := os.Executable()
-	if err != nil {
-		exePath = "git-swap"
-	} else {
-		exePath = filepath.ToSlash(exePath)
-	}
-	
-	hookCommand := fmt.Sprintf("\n# git-swap auto-swapper hook\n\"%s\" auto\n", exePath)
+	hookMarker := "# git-swap auto-swapper hook"
+	newHookCommand := "\n" + hookMarker + "\ngit-swap auto\n"
 
 	if _, err := os.Stat(hookPath); os.IsNotExist(err) {
-		content := "#!/bin/sh\n" + hookCommand
+		content := "#!/bin/sh\n" + newHookCommand
 		if err = os.WriteFile(hookPath, []byte(content), 0755); err != nil {
 			printError("Error creating hook: %v", err)
 			os.Exit(1)
 		}
 	} else {
 		existing, err := os.ReadFile(hookPath)
-		if err == nil && !strings.Contains(string(existing), "git-swap auto-swapper hook") {
+		if err != nil {
+			printError("Error reading existing hook: %v", err)
+			os.Exit(1)
+		}
+		
+		contentStr := string(existing)
+		if !strings.Contains(contentStr, hookMarker) {
+			// Marker not found, append
 			f, err := os.OpenFile(hookPath, os.O_APPEND|os.O_WRONLY, 0755)
 			if err != nil {
 				printError("Error modifying hook: %v", err)
 				os.Exit(1)
 			}
 			defer f.Close()
-			if _, err := f.WriteString(hookCommand); err != nil {
+			if _, err := f.WriteString(newHookCommand); err != nil {
 				printError("Error writing to hook: %v", err)
 				os.Exit(1)
 			}
+		} else {
+			// Marker exists, check if it needs upgrading (old absolute paths vs new simple command)
+			// Match the block starting with marker and the following line containing git-swap
+			re := regexp.MustCompile("(?m)^" + regexp.QuoteMeta(hookMarker) + "\\s*\\n.*git-swap.*auto")
+			currentMatch := re.FindString(contentStr)
+			
+			if currentMatch != "" && !strings.Contains(currentMatch, "git-swap auto") || strings.Contains(currentMatch, ".exe") || strings.Contains(currentMatch, ":/") {
+				// Needs upgrade: replaces the old block with the new one
+				newContent := re.ReplaceAllString(contentStr, strings.TrimSpace(newHookCommand))
+				if err := os.WriteFile(hookPath, []byte(newContent), 0755); err != nil {
+					printError("Error upgrading hook: %v", err)
+					os.Exit(1)
+				}
+				printSuccess("Upgraded existing hook to use environment PATH.")
+				return
+			}
+			// Already up to date
+			printWarning("Hook already up to date.")
+			return
 		}
 	}
 	printSuccess("Git pre-commit hook installed successfully!")
