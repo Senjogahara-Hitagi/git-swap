@@ -29,8 +29,9 @@ After building, you can run the binary directly:
 - `git-swap edit <name>`: Modify an existing profile.
 - `git-swap remove <name>`: Delete a profile.
 - `git-swap <name>`: Apply the specified profile to the current repository (requires `.git` directory).
-- `git-swap setup-hook`: Install 'auto' pre-commit hook in the current repository (uses absolute path for robustness).
+- `git-swap setup-hook`: Install/Update 'auto' pre-commit hook in the current repository. Uses `git-swap auto` (requires PATH) and automatically upgrades old absolute-path hooks.
 - `git-swap remove-hook`: Remove the pre-commit hook from the current repository.
+- `bulk_setup_hooks.py`: Python script to scan directories and bulk install/update hooks in all discovered repositories (now supports overwriting).
 - `git-swap auto`: Auto-detect and apply profile (prioritizes remote URL analysis over history).
 - `git-swap convert-ssh`: Convert HTTPS GitHub remotes to SSH format.
 - `git-swap _complete`: Internal command used for PowerShell completion logic.

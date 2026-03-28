@@ -104,6 +104,7 @@ Tired of manually swapping? Install a pre-commit hook that warns you if your ide
 ```bash
 git-swap setup-hook
 ```
+*Note: The hook uses `git-swap auto` and requires the executable to be in your system `PATH`. If you have old hooks with absolute paths, running this command again will automatically upgrade them.*
 
 ### 6. Convert Remotes
 Easily migrate your HTTPS GitHub remotes to SSH format to work seamlessly with `git-swap` SSH keys.

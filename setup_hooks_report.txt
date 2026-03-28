@@ -1,0 +1,452 @@
+Git-Swap Bulk Hook Setup/Update Report
+Timestamp: 2026-03-29 01:35:56
+Scanned Roots: D:\, E:\
+============================================================
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\C++\1A2B_3C_4A5B [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\C++\3_books_with_cpp [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\CMD\solidify-prompt-2-code [SUCCESS]
+  ✅ 
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\CMD\ssh-InitPush [SUCCESS]
+  ✅ 
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\PhD_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\postgraduate_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\postgraduate_courses [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\senior-high-school_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\undergraduate_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\undergraduate_courses [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\EPL\Hanging_Assist__for__Dueling_City [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\EPL\Stardust_DDTank [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\chunkie [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\CMake\finufft\out\build\x64-debug\_deps\findfftw-src [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\CMake\finufft\out\build\x64-debug\_deps\finufft-src [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\cufinufft [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\finufft [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\finufft\build\_deps\findfftw-src [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\fmm3dbie [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\sinctransform [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\surfacefun [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Go\0.NLAST\src\NLAST_go [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\ini\rulesmd.ini [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Julia\nlast_jl [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\test\11.Berry_Mcleod_paper__private__存档_Archive\6.sn-article-template_backref_problem [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\0.njuthesis\NJU_thesis_doctor__xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\1.berry_AST\Berry_Mcleod_paper__private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\1.berry_AST\geometric_optics_2_discrete_mathematics [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\2.scalar_NLAST\NLAST_scalar_paper__private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\CV_xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Lua\inputMethod\rime-fast-xhup [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Lua\inputMethod\rime-JDhe [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Lua\inputMethod\rime-moqi-wanxiang-schemas [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Powershell\Path_reg [SUCCESS]
+  ✅ 
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Powershell\Tana WX [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\BatchED [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\drag_build_package [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\Font_Merger [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\package_control_channel [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\QuickLineNavigator [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\youtube-livechat-sync [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.3.存档3 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名中，存档0 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名后，存档1 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\generate.cif [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST_private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\ddtank_egui [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\ddtank_flutter [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\test [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\test\tmp_overlay [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\ui_agent_tools [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\egui [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\egui-state-machine [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\egui_graphs [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\halo [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\nlast-rs [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\simuverse [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\TypeScript\HHH_theme [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Web\offline_web_pages [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Web\ray_optics__xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Web\tantalum_xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\C++\1A2B_3C_4A5B [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\C++\3_books_with_cpp [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\CMD\solidify-prompt-2-code [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\CMD\ssh-InitPush [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__0.0-0.5_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__0.5-1.0_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__1.0-1.5_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__1.5-2.0_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__2.0-2.5_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__2.5-3.0_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia__0.0-1.0_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia__1.0-1.5_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia__1.5-2.0_year [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_courses [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\senior-high-school_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\undergraduate_activities [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\undergraduate_courses [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\EPL\Hanging_Assist__for__Dueling_City [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\EPL\Stardust_DDTank [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\chunkie [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\CMake\finufft\out\build\x64-debug\_deps\findfftw-src [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\CMake\finufft\out\build\x64-debug\_deps\finufft-src [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\cufinufft [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\finufft [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\finufft\build\_deps\findfftw-src [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\fmm3dbie [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\sinctransform [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\surfacefun [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Go\0.NLAST\src\NLAST_go [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\ini\rulesmd.ini [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Julia\nlast_jl [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\test\11.Berry_Mcleod_paper__private__存档_Archive\6.sn-article-template_backref_problem [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\0.njuthesis\NJU_thesis_doctor__xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\1.berry_AST\Berry_Mcleod_paper__private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\1.berry_AST\geometric_optics_2_discrete_mathematics [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\2.scalar_NLAST\NLAST_scalar_paper__private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\CV2_xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\CV_xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-fast-xhup [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-JDhe [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-moqi-wanxiang-schemas [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-wanxiang-update-tools [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-wanxiang-updater [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Powershell\Path_reg [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Powershell\Tana WX [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\BatchED [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\drag_build_package [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\Font_Merger [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\package_control_channel [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\QuickLineNavigator [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\youtube-livechat-sync [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\PyDMD [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\SPDCinv [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.3.存档3 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名中，存档0 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名后，存档1 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\generate.cif [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST_private [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\ddtank_egui [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\ddtank_flutter [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\test [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\test\tmp_overlay [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\ui_agent_tools [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\egui [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\egui-state-machine [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\egui_graphs [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\halo [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\nlast-rs [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\simuverse [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\TypeScript\HHH_theme [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Web\offline_web_pages [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Web\ray_optics__xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\CtoD\Default\桌面\Code\Web\tantalum_xcz [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: D:\Rust\.cargo\registry\index\github.com-1ecc6299db9ec823 [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+📁 Repo: E:\Application\Runtime\flutter\flutter [SUCCESS]
+  ✅ [33m鈿狅笍  Hook already up to date.[0m
+
+------------------------------------------------------------
+🎉 Summary Report:
+✅ Successfully setup/updated: 147
+❌ Failed: 0
+📁 Total Repositories Found: 147
+------------------------------------------------------------

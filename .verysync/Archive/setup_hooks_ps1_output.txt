@@ -1,0 +1,788 @@
+PS G:\MCP\Projects\GitHub-Switch\git-swap> python bulk_setup_hooks.py D:\ E:\
+🚀 Scanning root: D:\
+🚀 Scanning root: E:\
+
+📊 Found 143 repositories. Processing...
+
+Exception in thread Thread-3 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\C++\1A2B_3C_4A5B [SUCCESS]
+Exception in thread Thread-5 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\C++\3_books_with_cpp [SUCCESS]
+Exception in thread Thread-7 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\PhD_activities [SUCCESS]
+Exception in thread Thread-9 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\postgraduate_activities [SUCCESS]
+Exception in thread Thread-11 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\postgraduate_courses [SUCCESS]
+Exception in thread Thread-13 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\senior-high-school_activities [SUCCESS]
+Exception in thread Thread-15 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\undergraduate_activities [SUCCESS]
+Exception in thread Thread-17 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Document\undergraduate_courses [SUCCESS]
+Exception in thread Thread-19 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\EPL\Hanging_Assist__for__Dueling_City [SUCCESS]
+Exception in thread Thread-21 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\EPL\Stardust_DDTank [SUCCESS]
+Exception in thread Thread-23 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\chunkie [SUCCESS]
+Exception in thread Thread-25 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\CMake\finufft\out\build\x64-debug\_deps\findfftw-src [SUCCESS]
+Exception in thread Thread-27 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\CMake\finufft\out\build\x64-debug\_deps\finufft-src [SUCCESS]
+Exception in thread Thread-29 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\cufinufft [SUCCESS]
+Exception in thread Thread-31 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\finufft [SUCCESS]
+Exception in thread Thread-33 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\finufft\build\_deps\findfftw-src [SUCCESS]
+Exception in thread Thread-35 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\fmm3dbie [SUCCESS]
+Exception in thread Thread-37 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\sinctransform [SUCCESS]
+Exception in thread Thread-39 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Flatiron\surfacefun [SUCCESS]
+Exception in thread Thread-41 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Go\0.NLAST\src\NLAST_go [SUCCESS]
+Exception in thread Thread-43 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\ini\rulesmd.ini [SUCCESS]
+Exception in thread Thread-45 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Julia\nlast_jl [SUCCESS]
+Exception in thread Thread-47 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\test\11.Berry_Mcleod_paper__private__存档_Archive\6.sn-article-template_backref_problem [SUCCESS]
+Exception in thread Thread-49 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\0.njuthesis\NJU_thesis_doctor__xcz [SUCCESS]
+Exception in thread Thread-51 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\1.berry_AST\Berry_Mcleod_paper__private [SUCCESS]
+Exception in thread Thread-53 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\1.berry_AST\geometric_optics_2_discrete_mathematics [SUCCESS]
+Exception in thread Thread-55 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\2.scalar_NLAST\NLAST_scalar_paper__private [SUCCESS]
+Exception in thread Thread-57 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Latex\TexStudio\CV_xcz [SUCCESS]
+Exception in thread Thread-59 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Lua\inputMethod\rime-fast-xhup [SUCCESS]
+Exception in thread Thread-61 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Lua\inputMethod\rime-JDhe [SUCCESS]
+Exception in thread Thread-63 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Lua\inputMethod\rime-moqi-wanxiang-schemas [SUCCESS]
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Powershell\Path_reg [ALREADY_SETUP]
+Exception in thread Thread-65 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Powershell\Tana WX [SUCCESS]
+Exception in thread Thread-67 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\BatchED [SUCCESS]
+Exception in thread Thread-69 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\drag_build_package [SUCCESS]
+Exception in thread Thread-71 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\Font_Merger [SUCCESS]
+Exception in thread Thread-73 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\package_control_channel [SUCCESS]
+Exception in thread Thread-75 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\QuickLineNavigator [SUCCESS]
+Exception in thread Thread-77 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\projects\youtube-livechat-sync [SUCCESS]
+Exception in thread Thread-79 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.3.存档3 [SUCCESS]
+Exception in thread Thread-81 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST [SUCCESS]
+Exception in thread Thread-83 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private [SUCCESS]
+Exception in thread Thread-85 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名中，存档0 [SUCCESS]
+Exception in thread Thread-87 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名后，存档1 [SUCCESS]
+Exception in thread Thread-89 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\generate.cif [SUCCESS]
+Exception in thread Thread-91 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST [SUCCESS]
+Exception in thread Thread-93 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST_private [SUCCESS]
+Exception in thread Thread-95 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\ddtank_egui [SUCCESS]
+Exception in thread Thread-97 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\ddtank_flutter [SUCCESS]
+Exception in thread Thread-99 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\test [SUCCESS]
+Exception in thread Thread-101 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\test\tmp_overlay [SUCCESS]
+Exception in thread Thread-103 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\DDTank\ui_agent_tools [SUCCESS]
+Exception in thread Thread-105 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\egui [SUCCESS]
+Exception in thread Thread-107 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\egui-state-machine [SUCCESS]
+Exception in thread Thread-109 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\egui_graphs [SUCCESS]
+Exception in thread Thread-111 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\halo [SUCCESS]
+Exception in thread Thread-113 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\nlast-rs [SUCCESS]
+Exception in thread Thread-115 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Rust\simuverse [SUCCESS]
+Exception in thread Thread-117 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\TypeScript\HHH_theme [SUCCESS]
+Exception in thread Thread-119 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Web\offline_web_pages [SUCCESS]
+Exception in thread Thread-121 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Web\ray_optics__xcz [SUCCESS]
+Exception in thread Thread-123 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\CtoD\Default\桌面\Code\.verysync\Archive\Web\tantalum_xcz [SUCCESS]
+📁 Repo: D:\CtoD\Default\桌面\Code\C++\1A2B_3C_4A5B [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\C++\3_books_with_cpp [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__0.0-0.5_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__0.5-1.0_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__1.0-1.5_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__1.5-2.0_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__2.0-2.5_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_academia__2.5-3.0_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\PhD_activities [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia__0.0-1.0_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia__1.0-1.5_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_academia__1.5-2.0_year [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_activities [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\postgraduate_courses [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\senior-high-school_activities [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\undergraduate_activities [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Document\undergraduate_courses [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\EPL\Hanging_Assist__for__Dueling_City [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\EPL\Stardust_DDTank [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\chunkie [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\CMake\finufft\out\build\x64-debug\_deps\findfftw-src [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\CMake\finufft\out\build\x64-debug\_deps\finufft-src [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\cufinufft [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\finufft [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\finufft\build\_deps\findfftw-src [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\fmm3dbie [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\sinctransform [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Flatiron\surfacefun [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Go\0.NLAST\src\NLAST_go [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\ini\rulesmd.ini [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Julia\nlast_jl [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\test\11.Berry_Mcleod_paper__private__存档_Archive\6.sn-article-template_backref_problem [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\0.njuthesis\NJU_thesis_doctor__xcz [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\1.berry_AST\Berry_Mcleod_paper__private [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\1.berry_AST\geometric_optics_2_discrete_mathematics [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\2.scalar_NLAST\NLAST_scalar_paper__private [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\CV2_xcz [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Latex\TexStudio\CV_xcz [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-fast-xhup [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-JDhe [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-moqi-wanxiang-schemas [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-wanxiang-update-tools [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Lua\inputMethod\rime-wanxiang-updater [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Powershell\Path_reg [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Powershell\Tana WX [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\BatchED [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\drag_build_package [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\Font_Merger [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\package_control_channel [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\QuickLineNavigator [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\projects\youtube-livechat-sync [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\PyDMD [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\SPDCinv [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.3.存档3 [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名中，存档0 [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.4.存档4\NLAST_private - 重命名后，存档1 [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\generate.cif [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Python\Vscode\5.NL_AST\4_引入折射率分布_早期代码\3.尝试 gitee\NLAST_private [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\ddtank_egui [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\ddtank_flutter [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\test [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\test\tmp_overlay [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\DDTank\ui_agent_tools [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\egui [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\egui-state-machine [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\egui_graphs [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\halo [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\nlast-rs [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Rust\simuverse [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\TypeScript\HHH_theme [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Web\offline_web_pages [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Web\ray_optics__xcz [ALREADY_SETUP]
+📁 Repo: D:\CtoD\Default\桌面\Code\Web\tantalum_xcz [ALREADY_SETUP]
+Exception in thread Thread-125 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: D:\Rust\.cargo\registry\index\github.com-1ecc6299db9ec823 [SUCCESS]
+Exception in thread Thread-127 (_readerthread):
+Traceback (most recent call last):
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "E:\Programming\anaconda3\Lib\threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "E:\Programming\anaconda3\Lib\subprocess.py", line 1599, in _readerthread
+    buffer.append(fh.read())
+                  ^^^^^^^^^
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x85 in position 7: illegal multibyte sequence
+📁 Repo: E:\Application\Runtime\flutter\flutter [SUCCESS]
+------------------------------------------------------------
+🎉 Summary Report:
+✅ Successfully setup: 63
+ℹ️  Already installed: 80
+❌ Failed: 0
+📁 Total Repositories Found: 143
+------------------------------------------------------------
+
+📄 Detailed report saved to: G:\MCP\Projects\GitHub-Switch\git-swap\setup_hooks_report.txt

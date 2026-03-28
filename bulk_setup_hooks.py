@@ -11,21 +11,9 @@ SYSTEM_EXCLUDE = {
 def is_git_repo(path):
     return os.path.exists(os.path.join(path, ".git"))
 
-def check_hook_exists(repo_path):
-    hook_path = os.path.join(repo_path, ".git", "hooks", "pre-commit")
-    if not os.path.exists(hook_path):
-        return False
-    try:
-        with open(hook_path, "r", encoding="utf-8") as f:
-            return "git-swap auto-swapper hook" in f.read()
-    except Exception:
-        return False
-
 def process_repo(repo_path):
-    if check_hook_exists(repo_path):
-        return "ALREADY_SETUP", ["  ℹ️  Hook already installed."]
-
     try:
+        # Run setup-hook. main.go logic will handle upgrading absolute paths to 'git-swap auto'
         result = subprocess.run(
             "git-swap setup-hook",
             cwd=repo_path,
@@ -60,13 +48,13 @@ def fast_scan(root):
         
         if '.git' in dirnames:
             repos.append(dirpath)
-            # 找到 .git 就不再递归进入此目录内部
+            # Stop recursing into found git repo
             dirnames.remove('.git')
             
     return repos
 
 def main():
-    parser = argparse.ArgumentParser(description="Bulk install git-swap auto hook in all git repos under specified paths.")
+    parser = argparse.ArgumentParser(description="Bulk install/update git-swap auto hook in all git repos under specified paths.")
     parser.add_argument("paths", nargs="+", help="Paths to scan for Git repositories")
     args = parser.parse_args()
     
@@ -85,16 +73,16 @@ def main():
         all_repos.extend(fast_scan(root_path))
 
     report_lines = [
-        f"Git-Swap Bulk Hook Setup Report",
+        f"Git-Swap Bulk Hook Setup/Update Report",
         f"Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f"Scanned Roots: {', '.join(args.paths)}",
         "=" * 60,
         ""
     ]
     
-    stats = {"SUCCESS": 0, "ALREADY_SETUP": 0, "FAILED": 0}
+    stats = {"SUCCESS": 0, "FAILED": 0}
     
-    print(f"\n📊 Found {len(all_repos)} repositories. Processing...\n")
+    print(f"\n📊 Found {len(all_repos)} repositories. Processing (Overwriting/Updating)...\n")
     
     for repo in all_repos:
         status, details = process_repo(repo)
@@ -110,8 +98,7 @@ def main():
     summary = [
         "-" * 60,
         "🎉 Summary Report:",
-        f"✅ Successfully setup: {stats['SUCCESS']}",
-        f"ℹ️  Already installed: {stats['ALREADY_SETUP']}",
+        f"✅ Successfully setup/updated: {stats['SUCCESS']}",
         f"❌ Failed: {stats['FAILED']}",
         f"📁 Total Repositories Found: {len(all_repos)}",
         "-" * 60
