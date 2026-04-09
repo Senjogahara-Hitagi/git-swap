@@ -164,6 +164,21 @@ func expandPath(path string) string {
 	return filepath.ToSlash(filepath.Clean(path))
 }
 
+func validateSSHKeyPath(path string) error {
+	trimmed := strings.TrimSpace(path)
+	if trimmed == "" {
+		return nil
+	}
+	clean := expandPath(trimmed)
+	if strings.HasSuffix(strings.ToLower(clean), ".pub") {
+		return fmt.Errorf("SSH key path points to a public key: %s. Use the private key file instead", clean)
+	}
+	if _, err := os.Stat(clean); err != nil {
+		return fmt.Errorf("SSH key file not found: %s", clean)
+	}
+	return nil
+}
+
 func getSortedKeys(config Config) []string {
 	keys := make([]string, 0, len(config))
 	for k := range config {
@@ -209,11 +224,17 @@ func addProfile(key string, config Config) {
 	s, _ := reader.ReadString('\n')
 	fmt.Print("Enter Signing Key: ")
 	k, _ := reader.ReadString('\n')
+
+	sshKey := strings.TrimSpace(s)
+	if err := validateSSHKeyPath(sshKey); err != nil {
+		printError(err.Error())
+		os.Exit(1)
+	}
 	
 	config[key] = Profile{
 		Name:       strings.TrimSpace(n),
 		Email:      eTrimmed,
-		SSHKey:     strings.TrimSpace(s),
+		SSHKey:     sshKey,
 		SigningKey: strings.TrimSpace(k),
 	}
 	saveConfig(config)
@@ -244,6 +265,10 @@ func editProfile(key string, config Config) {
 	fmt.Printf("SSH Key [%s]: ", p.SSHKey)
 	if s, _ := reader.ReadString('\n'); strings.TrimSpace(s) != "" {
 		p.SSHKey = strings.TrimSpace(s)
+		if err := validateSSHKeyPath(p.SSHKey); err != nil {
+			printError(err.Error())
+			os.Exit(1)
+		}
 	}
 	
 	fmt.Printf("Signing Key [%s]: ", p.SigningKey)
@@ -305,6 +330,10 @@ func swapProfile(profileName string, config Config) {
 	
 	if p.SSHKey != "" {
 		clean := expandPath(p.SSHKey)
+		if err := validateSSHKeyPath(clean); err != nil {
+			printError(err.Error())
+			os.Exit(1)
+		}
 		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
 		setGitConfig("core.sshCommand", sshCmd)
 		fmt.Printf("🔑 SSH Key: %s\n", clean)
