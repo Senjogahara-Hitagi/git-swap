@@ -111,6 +111,7 @@ Easily migrate your HTTPS GitHub remotes to SSH format to work seamlessly with `
 ```bash
 git-swap convert-ssh
 ```
+This updates both the remote fetch URL and any explicit push URL for GitHub remotes.
 
 ### 7. Edit or Remove
 Update an existing profile or delete one.

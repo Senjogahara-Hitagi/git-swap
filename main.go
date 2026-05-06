@@ -365,18 +365,26 @@ func showStatus(config Config) {
 	for k, p := range config {
 		if p.Name == cn && p.Email == ce {
 			printSuccess("Match: %s", k)
+			
+			// Auto-fix SSH Command if needed (for synced repos on different machines)
 			if p.SSHKey != "" {
 				clean := expandPath(p.SSHKey)
-				if _, err := os.Stat(clean); os.IsNotExist(err) {
-					printWarning("SSH Key file not found at %s", clean)
-				}
 				cmdOut, _ := exec.Command("git", "config", "--local", "core.sshCommand").Output()
 				currSSHCmd := strings.TrimSpace(string(cmdOut))
 				expectedCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
-				if currSSHCmd != expectedCmd && currSSHCmd != "" {
-					printWarning("core.sshCommand is polluted or incorrect.")
-					fmt.Printf("      Expected: %s\n", expectedCmd)
-					fmt.Printf("      Found:    %s\n", currSSHCmd)
+				
+				if currSSHCmd != expectedCmd {
+					if currSSHCmd == "" {
+						printWarning("SSH key is configured in profile but missing in repository.")
+					} else {
+						printWarning("Detected SSH path mismatch (possibly synced from another machine).")
+					}
+					fmt.Printf("🔄 Auto-aligning SSH configuration for this machine...\n")
+					swapProfile(k, config)
+				} else {
+					if _, err := os.Stat(clean); os.IsNotExist(err) {
+						printWarning("SSH Key file not found at local path: %s", clean)
+					}
 				}
 			}
 			return
@@ -635,8 +643,12 @@ func convertSSH() {
 				newURL := "git@github.com:" + repoPath
 				
 				if err := exec.Command("git", "remote", "set-url", name, newURL).Run(); err == nil {
-					printSuccess("Converted remote '%s' to SSH: %s", name, newURL)
-					convertedAny = true
+					if pushErr := exec.Command("git", "remote", "set-url", "--push", name, newURL).Run(); pushErr == nil {
+						printSuccess("Converted remote '%s' fetch/push to SSH: %s", name, newURL)
+						convertedAny = true
+					} else {
+						printError("Converted fetch URL for remote '%s', but failed to convert push URL", name)
+					}
 				} else {
 					printError("Failed to convert remote '%s'", name)
 				}

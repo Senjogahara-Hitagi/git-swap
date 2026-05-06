@@ -3,3 +3,7 @@ dist/
 .DS_Store
 .vscode/
 *.exe
+.verysync/
+.clj-kondo/
+.lsp/
+setup_hooks_report.txt
