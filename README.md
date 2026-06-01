@@ -77,7 +77,8 @@ It will ask for:
 - Name, 
 - Email,
 - SSH Key Path (Optional: e.g., `~/.ssh/id_work`),
-- Signing Key (Optional: GPG Key ID or SSH Public Key path for verified commits)
+- Signing Key (Optional: GPG Key ID or SSH Public Key path for verified commits),
+- GitHub Username (Optional: used for `gh auth switch`; defaults to the profile name)
 
 
 ### 2. List Profiles
@@ -143,6 +144,8 @@ git config --local user.signingkey "key_id_or_pub_key"
 git config --local commit.gpgsign true
 ```
 This ensures your global git configuration (`~/.gitconfig`) remains untouched and clean.
+
+If GitHub CLI (`gh`) is installed, `git-swap` will also try to switch the active `gh` account on `github.com` to match the profile's `github_user` value, or the profile name when `github_user` is omitted. The target account must already be authenticated via `gh auth login`.
 
 ## 🤝 Contributing
 

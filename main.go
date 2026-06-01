@@ -39,6 +39,7 @@ type Profile struct {
 	Email      string `json:"email"`
 	SSHKey     string `json:"ssh_key"`
 	SigningKey string `json:"signing_key"`
+	GitHubUser string `json:"github_user,omitempty"`
 }
 
 type Config map[string]Profile
@@ -214,7 +215,7 @@ func addProfile(key string, config Config) {
 	n, _ := reader.ReadString('\n')
 	fmt.Print("Enter Email: ")
 	e, _ := reader.ReadString('\n')
-	
+
 	eTrimmed := strings.TrimSpace(e)
 	if !strings.Contains(eTrimmed, "@") {
 		printWarning("Email doesn't look valid (missing '@'). Saving anyway, but please verify.")
@@ -224,18 +225,21 @@ func addProfile(key string, config Config) {
 	s, _ := reader.ReadString('\n')
 	fmt.Print("Enter Signing Key: ")
 	k, _ := reader.ReadString('\n')
+	fmt.Print("Enter GitHub Username (optional, defaults to profile name): ")
+	g, _ := reader.ReadString('\n')
 
 	sshKey := strings.TrimSpace(s)
 	if err := validateSSHKeyPath(sshKey); err != nil {
 		printError(err.Error())
 		os.Exit(1)
 	}
-	
+
 	config[key] = Profile{
 		Name:       strings.TrimSpace(n),
 		Email:      eTrimmed,
 		SSHKey:     sshKey,
 		SigningKey: strings.TrimSpace(k),
+		GitHubUser: strings.TrimSpace(g),
 	}
 	saveConfig(config)
 	printSuccess("Added!")
@@ -248,12 +252,12 @@ func editProfile(key string, config Config) {
 		os.Exit(1)
 	}
 	reader := bufio.NewReader(os.Stdin)
-	
+
 	fmt.Printf("Name [%s]: ", p.Name)
 	if n, _ := reader.ReadString('\n'); strings.TrimSpace(n) != "" {
 		p.Name = strings.TrimSpace(n)
 	}
-	
+
 	fmt.Printf("Email [%s]: ", p.Email)
 	if e, _ := reader.ReadString('\n'); strings.TrimSpace(e) != "" {
 		p.Email = strings.TrimSpace(e)
@@ -261,7 +265,7 @@ func editProfile(key string, config Config) {
 			printWarning("Email doesn't look valid (missing '@'). Saving anyway, but please verify.")
 		}
 	}
-	
+
 	fmt.Printf("SSH Key [%s]: ", p.SSHKey)
 	if s, _ := reader.ReadString('\n'); strings.TrimSpace(s) != "" {
 		p.SSHKey = strings.TrimSpace(s)
@@ -270,12 +274,21 @@ func editProfile(key string, config Config) {
 			os.Exit(1)
 		}
 	}
-	
+
 	fmt.Printf("Signing Key [%s]: ", p.SigningKey)
 	if k, _ := reader.ReadString('\n'); strings.TrimSpace(k) != "" {
 		p.SigningKey = strings.TrimSpace(k)
 	}
-	
+
+	currentGitHubUser := p.GitHubUser
+	if currentGitHubUser == "" {
+		currentGitHubUser = key
+	}
+	fmt.Printf("GitHub Username [%s]: ", currentGitHubUser)
+	if g, _ := reader.ReadString('\n'); strings.TrimSpace(g) != "" {
+		p.GitHubUser = strings.TrimSpace(g)
+	}
+
 	config[key] = p
 	saveConfig(config)
 	printSuccess("Updated!")
@@ -327,7 +340,7 @@ func swapProfile(profileName string, config Config) {
 	}
 	setGitConfig("user.name", p.Name)
 	setGitConfig("user.email", p.Email)
-	
+
 	if p.SSHKey != "" {
 		clean := expandPath(p.SSHKey)
 		if err := validateSSHKeyPath(clean); err != nil {
@@ -340,7 +353,7 @@ func swapProfile(profileName string, config Config) {
 	} else {
 		unsetGitConfig("core.sshCommand")
 	}
-	
+
 	if p.SigningKey != "" {
 		setGitConfig("user.signingkey", p.SigningKey)
 		setGitConfig("commit.gpgsign", "true")
@@ -352,27 +365,101 @@ func swapProfile(profileName string, config Config) {
 	} else {
 		unsetGitConfig("user.signingkey", "commit.gpgsign", "gpg.format")
 	}
-	
+
+	syncGitHubCLIAccount(profileName, p)
+
 	printSuccess("Swapped to: %s", profileName)
+}
+
+type ghAuthStatus struct {
+	Hosts map[string][]ghAccount `json:"hosts"`
+}
+
+type ghAccount struct {
+	Login  string `json:"login"`
+	Active bool   `json:"active"`
+	State  string `json:"state"`
+}
+
+func getTargetGitHubUser(profileName string, p Profile) string {
+	if strings.TrimSpace(p.GitHubUser) != "" {
+		return strings.TrimSpace(p.GitHubUser)
+	}
+	return strings.TrimSpace(profileName)
+}
+
+func syncGitHubCLIAccount(profileName string, p Profile) {
+	targetUser := getTargetGitHubUser(profileName, p)
+	if targetUser == "" {
+		return
+	}
+	if _, err := exec.LookPath("gh"); err != nil {
+		return
+	}
+
+	statusOut, err := exec.Command("gh", "auth", "status", "--json", "hosts").Output()
+	if err != nil {
+		printWarning("Unable to inspect gh auth status: %v", err)
+		return
+	}
+
+	var status ghAuthStatus
+	if err := json.Unmarshal(statusOut, &status); err != nil {
+		printWarning("Unable to parse gh auth status output.")
+		return
+	}
+
+	accounts := status.Hosts["github.com"]
+	if len(accounts) == 0 {
+		printWarning("gh has no authenticated accounts for github.com.")
+		return
+	}
+
+	currentUser := ""
+	targetExists := false
+	for _, account := range accounts {
+		if account.Active {
+			currentUser = account.Login
+		}
+		if strings.EqualFold(account.Login, targetUser) {
+			targetExists = true
+		}
+	}
+
+	if strings.EqualFold(currentUser, targetUser) {
+		return
+	}
+
+	if !targetExists {
+		printWarning("gh current account: %s; target account: %s. Run 'gh auth login' for the target account first.", currentUser, targetUser)
+		return
+	}
+
+	if err := exec.Command("gh", "auth", "switch", "--hostname", "github.com", "--user", targetUser).Run(); err != nil {
+		printWarning("Failed to switch gh account from %s to %s.", currentUser, targetUser)
+		return
+	}
+
+	printSuccess("gh active account: %s", targetUser)
 }
 
 func showStatus(config Config) {
 	n, _ := exec.Command("git", "config", "user.name").Output()
 	e, _ := exec.Command("git", "config", "user.email").Output()
 	cn, ce := strings.TrimSpace(string(n)), strings.TrimSpace(string(e))
-	
+
 	fmt.Printf("Current: %s <%s>\n", cn, ce)
 	for k, p := range config {
 		if p.Name == cn && p.Email == ce {
 			printSuccess("Match: %s", k)
-			
+
 			// Auto-fix SSH Command if needed (for synced repos on different machines)
 			if p.SSHKey != "" {
 				clean := expandPath(p.SSHKey)
 				cmdOut, _ := exec.Command("git", "config", "--local", "core.sshCommand").Output()
 				currSSHCmd := strings.TrimSpace(string(cmdOut))
 				expectedCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
-				
+
 				if currSSHCmd != expectedCmd {
 					if currSSHCmd == "" {
 						printWarning("SSH key is configured in profile but missing in repository.")
@@ -403,12 +490,12 @@ func autoDetectProfile(config Config) {
 		printError("Not a git repository.")
 		os.Exit(1)
 	}
-	
+
 	k, s := detectByRemotePriority(config)
 	if k == "" {
 		k, s = detectByHistory(config)
 	}
-	
+
 	if k != "" {
 		fmt.Printf("🔍 Detected via %s: %s%s%s\n", s, ColorCyan, k, ColorReset)
 		swapProfile(k, config)
@@ -444,7 +531,7 @@ func detectByRemotePriority(config Config) (string, string) {
 	out, _ := exec.Command("git", "remote", "-v").Output()
 	lines := strings.Split(string(out), "\n")
 	re := regexp.MustCompile(`^(\S+)\s+.*[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+\((push|fetch)\)`)
-	
+
 	var remotes []remoteMatch
 	for _, line := range lines {
 		m := re.FindStringSubmatch(line)
@@ -462,23 +549,23 @@ func detectByRemotePriority(config Config) (string, string) {
 				score += 10
 			}
 			remotes = append(remotes, remoteMatch{
-				remote: m[2], 
-				rtype:  m[3], 
-				score:  score, 
+				remote: m[2],
+				rtype:  m[3],
+				score:  score,
 				method: remoteName + " " + m[3] + " URL",
 			})
 		}
 	}
-	
+
 	sort.SliceStable(remotes, func(i, j int) bool {
 		return remotes[i].score > remotes[j].score
 	})
-	
+
 	for _, r := range remotes {
 		for key, p := range config {
-			if strings.EqualFold(key, r.remote) || 
-			   strings.EqualFold(strings.Split(p.Email, "@")[0], r.remote) || 
-			   strings.EqualFold(p.Name, r.remote) {
+			if strings.EqualFold(key, r.remote) ||
+				strings.EqualFold(strings.Split(p.Email, "@")[0], r.remote) ||
+				strings.EqualFold(p.Name, r.remote) {
 				return key, "remote " + r.method
 			}
 		}
@@ -496,7 +583,7 @@ func setupGitHook() {
 		printError("Error creating hooks directory: %v", err)
 		os.Exit(1)
 	}
-	
+
 	hookPath := filepath.Join(hooksDir, "pre-commit")
 	hookMarker := "# git-swap auto-swapper hook"
 	newHookCommand := "\n" + hookMarker + "\ngit-swap auto\n"
@@ -513,7 +600,7 @@ func setupGitHook() {
 			printError("Error reading existing hook: %v", err)
 			os.Exit(1)
 		}
-		
+
 		contentStr := string(existing)
 		if !strings.Contains(contentStr, hookMarker) {
 			// Marker not found, append
@@ -532,7 +619,7 @@ func setupGitHook() {
 			// Match the block starting with marker and the following line containing git-swap
 			re := regexp.MustCompile("(?m)^" + regexp.QuoteMeta(hookMarker) + "\\s*\\n.*git-swap.*auto")
 			currentMatch := re.FindString(contentStr)
-			
+
 			if currentMatch != "" && !strings.Contains(currentMatch, "git-swap auto") || strings.Contains(currentMatch, ".exe") || strings.Contains(currentMatch, ":/") {
 				// Needs upgrade: replaces the old block with the new one
 				newContent := re.ReplaceAllString(contentStr, strings.TrimSpace(newHookCommand))
@@ -571,7 +658,7 @@ func removeGitHook() {
 
 	contentStr := string(content)
 	startMarker := "# git-swap auto-swapper hook"
-	
+
 	if !strings.Contains(contentStr, startMarker) {
 		printWarning("git-swap auto-swapper hook not found in pre-commit.")
 		return
@@ -599,7 +686,7 @@ func removeGitHook() {
 
 	// Clean up trailing/leading newlines slightly
 	finalContent := strings.TrimSpace(strings.Join(newLines, "\n"))
-	
+
 	if finalContent == "#!/bin/sh" || finalContent == "" {
 		// Just remove the hook entirely if it's practically empty
 		os.Remove(hookPath)
@@ -618,10 +705,10 @@ func convertSSH() {
 	}
 	out, _ := exec.Command("git", "remote", "-v").Output()
 	lines := strings.Split(string(out), "\n")
-	
+
 	processed := make(map[string]bool)
 	convertedAny := false
-	
+
 	for _, line := range lines {
 		if strings.TrimSpace(line) == "" {
 			continue
@@ -630,18 +717,18 @@ func convertSSH() {
 		if len(parts) >= 2 {
 			name := parts[0]
 			urlStr := parts[1]
-			
+
 			if processed[name] {
 				continue
 			}
-			
+
 			if strings.HasPrefix(urlStr, "https://github.com/") {
 				repoPath := strings.TrimPrefix(urlStr, "https://github.com/")
 				if !strings.HasSuffix(repoPath, ".git") {
 					repoPath += ".git"
 				}
 				newURL := "git@github.com:" + repoPath
-				
+
 				if err := exec.Command("git", "remote", "set-url", name, newURL).Run(); err == nil {
 					if pushErr := exec.Command("git", "remote", "set-url", "--push", name, newURL).Run(); pushErr == nil {
 						printSuccess("Converted remote '%s' fetch/push to SSH: %s", name, newURL)
