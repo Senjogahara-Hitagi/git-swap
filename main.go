@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"os"
 	"os/exec"
 	"os/user"
@@ -230,7 +231,7 @@ func addProfile(key string, config Config) {
 
 	sshKey := strings.TrimSpace(s)
 	if err := validateSSHKeyPath(sshKey); err != nil {
-		printError(err.Error())
+		printError("%s", err.Error())
 		os.Exit(1)
 	}
 
@@ -270,7 +271,7 @@ func editProfile(key string, config Config) {
 	if s, _ := reader.ReadString('\n'); strings.TrimSpace(s) != "" {
 		p.SSHKey = strings.TrimSpace(s)
 		if err := validateSSHKeyPath(p.SSHKey); err != nil {
-			printError(err.Error())
+			printError("%s", err.Error())
 			os.Exit(1)
 		}
 	}
@@ -344,7 +345,7 @@ func swapProfile(profileName string, config Config) {
 	if p.SSHKey != "" {
 		clean := expandPath(p.SSHKey)
 		if err := validateSSHKeyPath(clean); err != nil {
-			printError(err.Error())
+			printError("%s", err.Error())
 			os.Exit(1)
 		}
 		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
@@ -698,51 +699,119 @@ func removeGitHook() {
 	}
 }
 
+type gitURLConversion struct {
+	key    string
+	oldURL string
+	newURL string
+}
+
+func githubHTTPSToSSH(rawURL string) (string, bool) {
+	u, err := url.Parse(strings.TrimSpace(rawURL))
+	if err != nil || u.Scheme != "https" || !strings.EqualFold(u.Hostname(), "github.com") {
+		return "", false
+	}
+
+	repoPath := strings.Trim(strings.TrimSpace(u.Path), "/")
+	if repoPath == "" || strings.Contains(repoPath, " ") {
+		return "", false
+	}
+
+	parts := strings.Split(repoPath, "/")
+	if len(parts) < 2 || parts[0] == "" || parts[1] == "" {
+		return "", false
+	}
+
+	if !strings.HasSuffix(repoPath, ".git") {
+		repoPath += ".git"
+	}
+	return "git@github.com:" + repoPath, true
+}
+
+func gitConfigURLConversions(configArgs ...string) []gitURLConversion {
+	pattern := `^(remote\..*\.url|remote\..*\.pushurl|submodule\..*\.url)$`
+	args := append([]string{"config"}, configArgs...)
+	args = append(args, "--get-regexp", pattern)
+
+	out, err := exec.Command("git", args...).Output()
+	if err != nil {
+		return nil
+	}
+
+	var conversions []gitURLConversion
+	seen := make(map[string]bool)
+	for _, line := range strings.Split(string(out), "\n") {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+
+		key, value, ok := strings.Cut(line, " ")
+		if !ok {
+			continue
+		}
+
+		oldURL := strings.TrimSpace(value)
+		newURL, converted := githubHTTPSToSSH(oldURL)
+		if !converted {
+			continue
+		}
+
+		seenKey := key + "\x00" + oldURL
+		if seen[seenKey] {
+			continue
+		}
+		seen[seenKey] = true
+
+		conversions = append(conversions, gitURLConversion{
+			key:    key,
+			oldURL: oldURL,
+			newURL: newURL,
+		})
+	}
+	return conversions
+}
+
+func applyGitConfigURLConversion(c gitURLConversion, configArgs ...string) error {
+	args := append([]string{"config"}, configArgs...)
+	args = append(args, "--replace-all", c.key, c.newURL, "^"+regexp.QuoteMeta(c.oldURL)+"$")
+	return exec.Command("git", args...).Run()
+}
+
 func convertSSH() {
 	if !isGitRepo() {
 		printError("Not a git repository.")
 		os.Exit(1)
 	}
-	out, _ := exec.Command("git", "remote", "-v").Output()
-	lines := strings.Split(string(out), "\n")
-
-	processed := make(map[string]bool)
 	convertedAny := false
 
-	for _, line := range lines {
-		if strings.TrimSpace(line) == "" {
-			continue
-		}
-		parts := strings.Fields(line)
-		if len(parts) >= 2 {
-			name := parts[0]
-			urlStr := parts[1]
-
-			if processed[name] {
-				continue
-			}
-
-			if strings.HasPrefix(urlStr, "https://github.com/") {
-				repoPath := strings.TrimPrefix(urlStr, "https://github.com/")
-				if !strings.HasSuffix(repoPath, ".git") {
-					repoPath += ".git"
-				}
-				newURL := "git@github.com:" + repoPath
-
-				if err := exec.Command("git", "remote", "set-url", name, newURL).Run(); err == nil {
-					if pushErr := exec.Command("git", "remote", "set-url", "--push", name, newURL).Run(); pushErr == nil {
-						printSuccess("Converted remote '%s' fetch/push to SSH: %s", name, newURL)
-						convertedAny = true
-					} else {
-						printError("Converted fetch URL for remote '%s', but failed to convert push URL", name)
-					}
-				} else {
-					printError("Failed to convert remote '%s'", name)
-				}
-			}
-			processed[name] = true
+	for _, c := range gitConfigURLConversions("--local") {
+		if err := applyGitConfigURLConversion(c, "--local"); err == nil {
+			printSuccess("Converted %s: %s -> %s", c.key, c.oldURL, c.newURL)
+			convertedAny = true
+		} else {
+			printError("Failed to convert %s", c.key)
 		}
 	}
+
+	modulesConverted := false
+	if _, err := os.Stat(".gitmodules"); err == nil {
+		for _, c := range gitConfigURLConversions("-f", ".gitmodules") {
+			if err := applyGitConfigURLConversion(c, "-f", ".gitmodules"); err == nil {
+				printSuccess("Converted .gitmodules %s: %s -> %s", c.key, c.oldURL, c.newURL)
+				convertedAny = true
+				modulesConverted = true
+			} else {
+				printError("Failed to convert .gitmodules %s", c.key)
+			}
+		}
+
+		if modulesConverted {
+			if err := exec.Command("git", "submodule", "sync", "--recursive").Run(); err != nil {
+				printWarning("Converted .gitmodules, but failed to sync submodule config.")
+			}
+		}
+	}
+
 	if !convertedAny {
 		printWarning("No HTTPS GitHub remotes found to convert.")
 	}
