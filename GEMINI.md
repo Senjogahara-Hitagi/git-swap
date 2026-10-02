@@ -1,7 +1,7 @@
 # GEMINI.md - git-swap 🔄
 
 ## Project Overview
-`git-swap` is a lightweight, zero-dependency CLI tool written in Go designed to manage and switch between multiple Git identities (e.g., Personal, Work, Freelance) on a per-project basis. It automates the configuration of `user.name`, `user.email`, SSH keys (`core.sshCommand`), and commit signing settings (`user.signingkey`) locally for a repository.
+`git-swap` is a lightweight, zero-dependency CLI tool written in Go designed to manage commit identities plus independent GitHub and Gitee accounts on a per-project basis. Provider SSH keys are routed through account-specific SSH host aliases rather than a repository-wide `core.sshCommand`.
 
 ### Core Technologies
 - **Language:** Go (Standard Library only)
@@ -13,7 +13,7 @@
 ### Build from Source
 To build the binary locally, you need Go installed:
 ```bash
-go build -o bin/git-swap.exe main.go
+go build -o bin/git-swap.exe .
 ```
 
 ### Running the Tool
@@ -32,14 +32,17 @@ After building, you can run the binary directly:
 - `git-swap setup-hook`: Install/Update 'auto' pre-commit hook in the current repository. Uses `git-swap auto` (requires PATH) and automatically upgrades old absolute-path hooks.
 - `git-swap remove-hook`: Remove the pre-commit hook from the current repository.
 - `bulk_setup_hooks.py`: Python script to scan directories and bulk install/update hooks in all discovered repositories (now supports overwriting).
-- `git-swap auto`: Auto-detect and apply profile (prioritizes remote URL analysis over history).
-- `git-swap convert-ssh`: Convert HTTPS GitHub remotes to SSH format.
+- `git-swap auto`: Independently bind GitHub/Gitee accounts from all fetch/push URLs, then preserve or infer the commit profile.
+- `git-swap provider <list|set|remove>`: Manage GitHub/Gitee accounts independently within a profile.
+- `git-swap doctor`: Validate the repository binding, SSH override, and provider remotes.
+- `git-swap convert-ssh`: Convert HTTPS GitHub/Gitee remotes to SSH format.
 - `git-swap _complete`: Internal command used for PowerShell completion logic.
 
 ## Development Conventions
 
 ### Code Structure
-- **Single File:** The entire logic is currently contained within `main.go`.
+- **Core CLI:** `main.go` contains profile, hook, signing, and GitHub CLI behavior.
+- **Provider Layer:** `providers.go` contains GitHub/Gitee modeling, URL routing, SSH config management, provider detection, and doctor checks.
 - **ANSI Colors:** Terminal output is colorized using standard ANSI escape codes defined as constants.
 - **Error Handling:** Errors are generally reported to `stdout`/`stderr` with color coding, followed by `os.Exit(1)`.
 
@@ -50,9 +53,13 @@ After building, you can run the binary directly:
 
 ### Git Interaction
 - The tool uses `git config --local` to ensure global settings remain untouched.
-- SSH keys are managed via `core.sshCommand` with `-o IdentitiesOnly=yes` and `-F /dev/null` to ensure the specific key is used without interference from `ssh-agent`.
+- Each provider account uses a distinct SSH host alias with `IdentitiesOnly yes`; `core.sshCommand` is removed because it cannot select different keys for different remotes in one repository.
+- Managed SSH config blocks are bounded by `# BEGIN/END git-swap <alias>`, written with a backup, and placed before wildcard `Host *` settings.
+- Legacy top-level `ssh_key` and `github_user` fields normalize to a GitHub provider account.
+- `git-swap.profile` is the commit-author binding; `git-swap.provider.github` and `git-swap.provider.gitee` are independent authentication bindings.
+- Auto-detection accepts different profiles across providers and fails closed only when URLs for the same provider resolve to multiple profiles.
 - Signing keys support both GPG and SSH formats.
 
 ### Testing
-- Currently, there are no automated tests (no `_test.go` files).
-- Manual verification involves creating profiles and checking `git config --local -l` in test repositories.
+- Run `go test ./...` and `go vet ./...` before committing.
+- Tests cover URL parsing/conversion, legacy migration, owner/alias matching, independent multi-provider push URLs, and managed SSH block safety.

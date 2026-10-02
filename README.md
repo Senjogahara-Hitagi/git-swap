@@ -6,19 +6,20 @@
 
 > Stop committing with the wrong email! Switch Git identities instantly.
 
-**git-swap** is a lightweight, zero-dependency CLI tool written in Go. It allows developers to manage multiple Git identities (Personal, Work, Freelance) and switch between them on a per-project basis with a single command.
+**git-swap** is a lightweight, zero-dependency CLI tool written in Go. It manages commit identities and independent GitHub/Gitee SSH accounts on a per-project basis.
 
-It handles not just `user.name` and `user.email`, but also manages project-specific **SSH keys** (`core.sshCommand`), ensuring you never get "Permission denied" errors again.
+Unlike a repository-wide `core.sshCommand`, provider-specific SSH host aliases let one repository use different keys for GitHub and Gitee at the same time.
 
 ## 🚀 Features
 
 * **⚡️ Instant Switch:** Change identity locally for the current repository without affecting global settings.
-* **🔑 SSH Key Management:** Automatically sets specific SSH keys for specific profiles.
+* **🔑 Multi-provider SSH:** Independent GitHub and Gitee accounts, keys, aliases, and repository owners per profile.
+* **🧭 Safe Remote Routing:** Rewrites each SSH fetch/push URL to the selected provider alias without changing its owner or repository path.
 * **🔏 Commit Signing:** Supports GPG and SSH signing keys. Auto-enables signing per profile.
 * **🤖 Auto Detection:** Improved `auto` command to detect and apply profiles based on git remote/history.
 * **🔗 Hook System:** `setup-hook` allows automatic profile switching via pre-commit hooks.
 * **🔄 HTTPS to SSH:** `convert-ssh` command to easily migrate remotes from HTTPS to SSH format.
-* **👀 Status Check:** Enhanced `status` command (alias `current`) with SSH validation.
+* **👀 Status and Doctor:** Inspect the effective identity, repository binding, remote owners, and conflicting SSH overrides.
 * **📦 Cross-Platform:** Works on macOS, Linux, and Windows with PowerShell completion support.
 
 ---
@@ -62,7 +63,7 @@ If you prefer to build it yourself:
 ```bash
 git clone https://github.com/abdozkaya/git-swap.git
 cd git-swap
-go build -o bin/git-swap.exe main.go
+go build -o bin/git-swap.exe .
 ```
 ---
 
@@ -76,9 +77,11 @@ git-swap add work
 It will ask for:
 - Name, 
 - Email,
-- SSH Key Path (Optional: e.g., `~/.ssh/id_work`),
+- GitHub username and SSH private key (Optional),
 - Signing Key (Optional: GPG Key ID or SSH Public Key path for verified commits),
-- GitHub Username (Optional: used for `gh auth switch`; defaults to the profile name)
+- Gitee username and SSH private key (Optional)
+
+Legacy top-level `ssh_key` and `github_user` fields remain compatible and are treated as a GitHub provider account.
 
 
 ### 2. List Profiles
@@ -92,29 +95,46 @@ Navigate to any git repository and apply a profile.
 cd ~/my-company-project
 git-swap work
 ```
+
+Applying a profile binds the commit author with `git-swap.profile`. Its provider accounts are defaults only: remote owner/alias evidence can independently select another profile for GitHub or Gitee. The resulting bindings are stored as `git-swap.provider.github` and `git-swap.provider.gitee`.
+
 *Output: ✅ Swapped to: work*
 
 ### 4. Check Status
 Not sure which identity is active in the current folder?
 ```bash
 git-swap current  # or 'status'
+git-swap doctor
 ```
 
-### 5. Automation (Hooks)
+### 5. Configure Provider Accounts
+
+Each profile can carry one GitHub account and one Gitee account. A repository may combine them across profiles—for example, commit profile `work`, GitHub provider profile `github-personal`, and Gitee provider profile `gitee-work`. The optional owners list supports organization/team repositories whose URL owner differs from the account username.
+
+```bash
+git-swap provider set work github
+git-swap provider set work gitee
+git-swap provider list work
+git-swap provider remove work gitee
+```
+
+`provider set` prompts for username, private key, SSH host alias, and accepted repository owners. Enter `-` for the key, alias, or owners prompt to clear that field. A blank key with an explicit alias means the alias is managed externally in `~/.ssh/config`.
+
+### 6. Automation (Hooks)
 Tired of manually swapping? Install a pre-commit hook that warns you if your identity doesn't match the project.
 ```bash
 git-swap setup-hook
 ```
 *Note: The hook uses `git-swap auto` and requires the executable to be in your system `PATH`. If you have old hooks with absolute paths, running this command again will automatically upgrade them.*
 
-### 6. Convert Remotes
-Easily migrate your HTTPS GitHub remotes to SSH format to work seamlessly with `git-swap` SSH keys.
+### 7. Convert Remotes
+Migrate HTTPS GitHub and Gitee remotes to SSH. If the repository is already bound, provider-specific aliases are used.
 ```bash
 git-swap convert-ssh
 ```
-This updates remote fetch URLs, explicit push URLs, and submodule URLs independently, preserving each URL's GitHub owner.
+This updates remote fetch URLs, explicit push URLs, and submodule URLs independently, preserving each URL's provider, owner, and repository path.
 
-### 7. Edit or Remove
+### 8. Edit or Remove
 Update an existing profile or delete one.
 
 # Update details
@@ -129,23 +149,53 @@ git-swap remove work
 
 ## ⚙️ How It Works
 
-`git-swap` stores your profiles in a local configuration file (`~/.git-swap-config.json`).
-When you run `git-swap <profile>`, it executes the following git commands locally in your project:
+`git-swap` stores profiles in `~/.git-swap-config.json`. A profile owns the commit identity and a map of provider accounts:
 
-```bash
-git config --local user.name "Your Name"
-git config --local user.email "email@company.com"
-
-# If SSH Key is provided:
-git config --local core.sshCommand "ssh -i /path/to/private_key -F /dev/null"
-
-# If Signing Key is provided:
-git config --local user.signingkey "key_id_or_pub_key"
-git config --local commit.gpgsign true
+```json
+{
+  "work": {
+    "name": "Your Name",
+    "email": "email@company.com",
+    "providers": {
+      "github": {
+        "username": "github-user",
+        "ssh_key": "~/.ssh/github-work",
+        "owners": ["github-user", "company-org"]
+      },
+      "gitee": {
+        "username": "gitee-user",
+        "ssh_key": "~/.ssh/gitee-work",
+        "owners": ["gitee-user", "company-team"]
+      }
+    }
+  }
+}
 ```
-This ensures your global git configuration (`~/.gitconfig`) remains untouched and clean.
 
-If GitHub CLI (`gh`) is installed, `git-swap` will also try to switch the active `gh` account on `github.com` to match the profile's `github_user` value, or the profile name when `github_user` is omitted. The target account must already be authenticated via `gh auth login`.
+For managed keys, `git-swap` writes marked blocks near the top of `~/.ssh/config`:
+
+```sshconfig
+# BEGIN git-swap git-swap-github-work
+Host git-swap-github-work
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/github-work
+  IdentitiesOnly yes
+# END git-swap git-swap-github-work
+```
+
+The original SSH config is backed up to `~/.ssh/config.git-swap.bak` before replacement. Existing non-managed content is preserved. The alias is then stored in each matching remote URL, so GitHub and Gitee authentication remain independent even when both are push targets of the same remote.
+
+`git-swap auto` first scans every local `remote.*.url` and `remote.*.pushurl`, then resolves each platform independently:
+
+1. GitHub URLs select `git-swap.provider.github`.
+2. Gitee URLs select `git-swap.provider.gitee`.
+3. An existing valid `git-swap.profile` remains the commit-author binding.
+4. Without one, a single shared provider profile, the effective Git identity, or recent commit-email history selects the commit author.
+
+Different profiles across GitHub and Gitee are valid. Multiple fetch and push URLs are all inspected. Only conflicting profiles within the same platform fail closed, because one platform account cannot safely authenticate two account owners through one repository binding.
+
+If GitHub CLI (`gh`) is installed, `git-swap` switches its active `github.com` account to the independently bound GitHub provider username. Gitee authentication remains SSH-based; no GitHub-specific behavior is applied to it.
 
 ## 🤝 Contributing
 

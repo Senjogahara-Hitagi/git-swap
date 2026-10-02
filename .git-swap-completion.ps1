@@ -4,7 +4,7 @@ $GitSwapCompleter = {
     $commandElements = $commandAst.CommandElements
     $nElements = $commandElements.Count
     if ($nElements -le 2) {
-        $commands = @('list', 'status', 'current', 'add', 'edit', 'remove', 'rm', 'auto', 'setup-hook', 'remove-hook', 'convert-ssh', 'help')
+        $commands = @('list', 'status', 'current', 'add', 'edit', 'remove', 'rm', 'auto', 'provider', 'doctor', 'setup-hook', 'remove-hook', 'convert-ssh', 'help')
         $profiles = & git-swap _complete 2>$null
         $indices = @()
         if ($profiles) { for ($i = 1; $i -le $profiles.Count; $i++) { $indices += [string]$i } }
@@ -15,6 +15,11 @@ $GitSwapCompleter = {
     }
     if ($nElements -eq 3) {
         $firstArg = $commandElements[1].GetText()
+        if ($firstArg -eq 'provider') {
+            return @('list', 'set', 'remove') | Where-Object { $_.StartsWith($wordToComplete) } | ForEach-Object {
+                [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+            }
+        }
         if ($firstArg -eq 'edit' -or $firstArg -eq 'remove' -or $firstArg -eq 'rm') {
             $profiles = & git-swap _complete 2>$null
             $indices = @()
@@ -25,8 +30,19 @@ $GitSwapCompleter = {
             }
         }
     }
+    if ($nElements -eq 4 -and $commandElements[1].GetText() -eq 'provider') {
+        $profiles = & git-swap _complete 2>$null
+        return $profiles | Where-Object { $_.StartsWith($wordToComplete) } | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
+    }
+    if ($nElements -eq 5 -and $commandElements[1].GetText() -eq 'provider') {
+        return @('github', 'gitee') | Where-Object { $_.StartsWith($wordToComplete) } | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
+    }
     return $null
 }
 Register-ArgumentCompleter -Native -CommandName 'git-swap' -ScriptBlock $GitSwapCompleter
 
-Register-ArgumentCompleter -Native -CommandName 'gsw' -ScriptBlock $GitSwapCompleter
+Register-ArgumentCompleter -Native -CommandName 'gswap' -ScriptBlock $GitSwapCompleter

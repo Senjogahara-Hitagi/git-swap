@@ -36,10 +36,14 @@ func printSuccess(format string, a ...interface{}) {
 }
 
 type Profile struct {
-	Name       string `json:"name"`
-	Email      string `json:"email"`
-	SSHKey     string `json:"ssh_key"`
-	SigningKey string `json:"signing_key"`
+	Name       string                     `json:"name"`
+	Email      string                     `json:"email"`
+	SigningKey string                     `json:"signing_key"`
+	Providers  map[string]ProviderAccount `json:"providers,omitempty"`
+
+	// Legacy fields are read for backward compatibility and migrated to the
+	// GitHub provider model when a profile is next edited.
+	SSHKey     string `json:"ssh_key,omitempty"`
 	GitHubUser string `json:"github_user,omitempty"`
 }
 
@@ -48,6 +52,7 @@ type Config map[string]Profile
 var reservedCommands = map[string]bool{
 	"list": true, "status": true, "add": true, "edit": true, "remove": true, "rm": true,
 	"auto": true, "help": true, "_complete": true, "setup-hook": true, "remove-hook": true, "convert-ssh": true, "current": true,
+	"provider": true, "doctor": true,
 }
 
 func main() {
@@ -88,12 +93,18 @@ func main() {
 		removeProfile(os.Args[2], config)
 	case "auto":
 		autoDetectProfile(config)
+	case "provider":
+		handleProviderCommand(os.Args[2:], config)
+	case "doctor":
+		if !doctor(config) {
+			os.Exit(1)
+		}
 	case "setup-hook":
 		setupGitHook()
 	case "remove-hook":
 		removeGitHook()
 	case "convert-ssh":
-		convertSSH()
+		convertSSH(config)
 	case "_complete":
 		for k := range config {
 			fmt.Println(k)
@@ -116,9 +127,13 @@ func printUsage() {
 	fmt.Println("  git-swap remove <name>         - Delete a profile")
 	fmt.Println("  git-swap <name|index>          - Apply a profile to the current repository")
 	fmt.Println("  git-swap auto                  - Auto-detect and apply profile based on remote/history")
+	fmt.Println("  git-swap provider list <profile>")
+	fmt.Println("  git-swap provider set <profile> <github|gitee>")
+	fmt.Println("  git-swap provider remove <profile> <github|gitee>")
+	fmt.Println("  git-swap doctor                - Validate repository identity and remote authentication")
 	fmt.Println("  git-swap setup-hook            - Install 'auto' pre-commit hook in current repo")
 	fmt.Println("  git-swap remove-hook           - Remove 'auto' pre-commit hook from current repo")
-	fmt.Println("  git-swap convert-ssh           - Convert HTTPS GitHub remotes to SSH format")
+	fmt.Println("  git-swap convert-ssh           - Convert HTTPS GitHub/Gitee remotes to SSH format")
 }
 
 func getConfigPath() string {
@@ -222,25 +237,46 @@ func addProfile(key string, config Config) {
 		printWarning("Email doesn't look valid (missing '@'). Saving anyway, but please verify.")
 	}
 
-	fmt.Print("Enter SSH Key Path: ")
-	s, _ := reader.ReadString('\n')
 	fmt.Print("Enter Signing Key: ")
 	k, _ := reader.ReadString('\n')
-	fmt.Print("Enter GitHub Username (optional, defaults to profile name): ")
+	fmt.Print("Enter GitHub Username (optional): ")
 	g, _ := reader.ReadString('\n')
+	fmt.Print("Enter GitHub SSH Private Key (optional): ")
+	gs, _ := reader.ReadString('\n')
+	fmt.Print("Enter Gitee Username (optional): ")
+	ge, _ := reader.ReadString('\n')
+	fmt.Print("Enter Gitee SSH Private Key (optional): ")
+	ges, _ := reader.ReadString('\n')
 
-	sshKey := strings.TrimSpace(s)
-	if err := validateSSHKeyPath(sshKey); err != nil {
-		printError("%s", err.Error())
-		os.Exit(1)
+	providers := make(map[string]ProviderAccount)
+	githubUser, githubKey := strings.TrimSpace(g), strings.TrimSpace(gs)
+	if githubUser != "" || githubKey != "" {
+		if githubUser == "" {
+			githubUser = key
+		}
+		if err := validateSSHKeyPath(githubKey); err != nil {
+			printError("%s", err.Error())
+			os.Exit(1)
+		}
+		providers[providerGitHub] = ProviderAccount{Username: githubUser, SSHKey: githubKey, Owners: []string{githubUser}}
+	}
+	giteeUser, giteeKey := strings.TrimSpace(ge), strings.TrimSpace(ges)
+	if giteeUser != "" || giteeKey != "" {
+		if giteeUser == "" {
+			giteeUser = key
+		}
+		if err := validateSSHKeyPath(giteeKey); err != nil {
+			printError("%s", err.Error())
+			os.Exit(1)
+		}
+		providers[providerGitee] = ProviderAccount{Username: giteeUser, SSHKey: giteeKey, Owners: []string{giteeUser}}
 	}
 
 	config[key] = Profile{
 		Name:       strings.TrimSpace(n),
 		Email:      eTrimmed,
-		SSHKey:     sshKey,
 		SigningKey: strings.TrimSpace(k),
-		GitHubUser: strings.TrimSpace(g),
+		Providers:  providers,
 	}
 	saveConfig(config)
 	printSuccess("Added!")
@@ -267,32 +303,22 @@ func editProfile(key string, config Config) {
 		}
 	}
 
-	fmt.Printf("SSH Key [%s]: ", p.SSHKey)
-	if s, _ := reader.ReadString('\n'); strings.TrimSpace(s) != "" {
-		p.SSHKey = strings.TrimSpace(s)
-		if err := validateSSHKeyPath(p.SSHKey); err != nil {
-			printError("%s", err.Error())
-			os.Exit(1)
-		}
-	}
-
 	fmt.Printf("Signing Key [%s]: ", p.SigningKey)
 	if k, _ := reader.ReadString('\n'); strings.TrimSpace(k) != "" {
 		p.SigningKey = strings.TrimSpace(k)
 	}
 
-	currentGitHubUser := p.GitHubUser
-	if currentGitHubUser == "" {
-		currentGitHubUser = key
-	}
-	fmt.Printf("GitHub Username [%s]: ", currentGitHubUser)
-	if g, _ := reader.ReadString('\n'); strings.TrimSpace(g) != "" {
-		p.GitHubUser = strings.TrimSpace(g)
+	accounts := normalizedProviderAccounts(key, p)
+	if len(accounts) > 0 {
+		p.Providers = accounts
+		p.SSHKey = ""
+		p.GitHubUser = ""
 	}
 
 	config[key] = p
 	saveConfig(config)
 	printSuccess("Updated!")
+	fmt.Println("Use 'git-swap provider set <profile> <github|gitee>' to edit provider accounts.")
 }
 
 func removeProfile(key string, config Config) {
@@ -339,22 +365,46 @@ func swapProfile(profileName string, config Config) {
 		printError("Profile '%s' not found.", profileName)
 		os.Exit(1)
 	}
-	setGitConfig("user.name", p.Name)
-	setGitConfig("user.email", p.Email)
-
-	if p.SSHKey != "" {
-		clean := expandPath(p.SSHKey)
-		if err := validateSSHKeyPath(clean); err != nil {
-			printError("%s", err.Error())
-			os.Exit(1)
+	applyCommitProfile(profileName, p)
+	if isGitRepo() {
+		setGitConfig("git-swap.profile", profileName)
+	}
+	bindings := profileProviderBindings(profileName, p)
+	// An explicit profile chooses the commit author and provides provider
+	// defaults. Remote URL evidence remains authoritative per provider, so a
+	// GitHub account and a Gitee account may come from different profiles.
+	detection := detectProviderBindings(config)
+	if len(detection.Conflicts) > 0 {
+		for provider, profiles := range detection.Conflicts {
+			printError("%s remotes match multiple accounts: %s", supportedProviders[provider].Name, strings.Join(profiles, ", "))
 		}
-		sshCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
-		setGitConfig("core.sshCommand", sshCmd)
-		fmt.Printf("🔑 SSH Key: %s\n", clean)
-	} else {
-		unsetGitConfig("core.sshCommand")
+		os.Exit(1)
+	}
+	for provider, providerProfile := range detection.Bindings {
+		bindings[provider] = providerProfile
+	}
+	for provider := range supportedProviders {
+		unsetGitConfig(providerBindingKey(provider))
+	}
+	if err := setRepositoryProviderBindings(bindings); err != nil {
+		printError("Provider binding failed: %v", err)
+		os.Exit(1)
+	}
+	if err := configureProviderAuthentication(bindings, config); err != nil {
+		printError("Provider authentication setup failed: %v", err)
+		os.Exit(1)
 	}
 
+	if githubProfile, ok := bindings[providerGitHub]; ok {
+		syncGitHubCLIAccount(githubProfile, config[githubProfile])
+	}
+
+	printSuccess("Swapped to: %s", profileName)
+}
+
+func applyCommitProfile(profileName string, p Profile) {
+	setGitConfig("user.name", p.Name)
+	setGitConfig("user.email", p.Email)
 	if p.SigningKey != "" {
 		setGitConfig("user.signingkey", p.SigningKey)
 		setGitConfig("commit.gpgsign", "true")
@@ -366,10 +416,6 @@ func swapProfile(profileName string, config Config) {
 	} else {
 		unsetGitConfig("user.signingkey", "commit.gpgsign", "gpg.format")
 	}
-
-	syncGitHubCLIAccount(profileName, p)
-
-	printSuccess("Swapped to: %s", profileName)
 }
 
 type ghAuthStatus struct {
@@ -383,10 +429,10 @@ type ghAccount struct {
 }
 
 func getTargetGitHubUser(profileName string, p Profile) string {
-	if strings.TrimSpace(p.GitHubUser) != "" {
-		return strings.TrimSpace(p.GitHubUser)
+	if account, ok := normalizedProviderAccounts(profileName, p)[providerGitHub]; ok {
+		return strings.TrimSpace(account.Username)
 	}
-	return strings.TrimSpace(profileName)
+	return ""
 }
 
 func syncGitHubCLIAccount(profileName string, p Profile) {
@@ -450,30 +496,17 @@ func showStatus(config Config) {
 	cn, ce := strings.TrimSpace(string(n)), strings.TrimSpace(string(e))
 
 	fmt.Printf("Current: %s <%s>\n", cn, ce)
+	markerOut, _ := exec.Command("git", "config", "--local", "--get", "git-swap.profile").Output()
+	marker := strings.TrimSpace(string(markerOut))
 	for k, p := range config {
 		if p.Name == cn && p.Email == ce {
 			printSuccess("Match: %s", k)
-
-			// Auto-fix SSH Command if needed (for synced repos on different machines)
-			if p.SSHKey != "" {
-				clean := expandPath(p.SSHKey)
-				cmdOut, _ := exec.Command("git", "config", "--local", "core.sshCommand").Output()
-				currSSHCmd := strings.TrimSpace(string(cmdOut))
-				expectedCmd := fmt.Sprintf("ssh -i '%s' -o IdentitiesOnly=yes -F /dev/null", clean)
-
-				if currSSHCmd != expectedCmd {
-					if currSSHCmd == "" {
-						printWarning("SSH key is configured in profile but missing in repository.")
-					} else {
-						printWarning("Detected SSH path mismatch (possibly synced from another machine).")
-					}
-					fmt.Printf("🔄 Auto-aligning SSH configuration for this machine...\n")
-					swapProfile(k, config)
-				} else {
-					if _, err := os.Stat(clean); os.IsNotExist(err) {
-						printWarning("SSH Key file not found at local path: %s", clean)
-					}
-				}
+			if marker != "" && marker != k {
+				printWarning("Repository marker is %s, but effective identity matches %s.", marker, k)
+			}
+			for provider, profileName := range repositoryProviderBindings(config) {
+				account := normalizedProviderAccounts(profileName, config[profileName])[provider]
+				fmt.Printf("  %s binding: %s (%s) via %s\n", supportedProviders[provider].Name, profileName, account.Username, accountHostAlias(provider, profileName, account))
 			}
 			return
 		}
@@ -482,8 +515,9 @@ func showStatus(config Config) {
 }
 
 func isGitRepo() bool {
-	_, err := os.Stat(".git")
-	return !os.IsNotExist(err)
+	cmd := exec.Command("git", "rev-parse", "--is-inside-work-tree")
+	out, err := cmd.Output()
+	return err == nil && strings.TrimSpace(string(out)) == "true"
 }
 
 func autoDetectProfile(config Config) {
@@ -492,17 +526,91 @@ func autoDetectProfile(config Config) {
 		os.Exit(1)
 	}
 
-	k, s := detectByRemotePriority(config)
-	if k == "" {
-		k, s = detectByHistory(config)
+	detection := detectProviderBindings(config)
+	if len(detection.Conflicts) > 0 {
+		for provider, profiles := range detection.Conflicts {
+			printError("%s remotes match multiple accounts: %s", supportedProviders[provider].Name, strings.Join(profiles, ", "))
+		}
+		os.Exit(1)
 	}
 
-	if k != "" {
-		fmt.Printf("🔍 Detected via %s: %s%s%s\n", s, ColorCyan, k, ColorReset)
-		swapProfile(k, config)
-	} else {
-		printWarning("No match found.")
+	bindings := repositoryProviderBindings(config)
+	presentProviders := repositoryRemoteProviders(config)
+	for provider := range supportedProviders {
+		if !presentProviders[provider] {
+			delete(bindings, provider)
+			unsetGitConfig(providerBindingKey(provider))
+		}
 	}
+	for provider, profileName := range detection.Bindings {
+		bindings[provider] = profileName
+		fmt.Printf("🔍 %s remote -> %s%s%s\n", supportedProviders[provider].Name, ColorCyan, profileName, ColorReset)
+	}
+	if err := setRepositoryProviderBindings(bindings); err != nil {
+		printError("Provider binding failed: %v", err)
+		os.Exit(1)
+	}
+
+	markerOut, _ := exec.Command("git", "config", "--local", "--get", "git-swap.profile").Output()
+	commitProfile := strings.TrimSpace(string(markerOut))
+	if _, ok := config[commitProfile]; !ok {
+		if commitProfile != "" {
+			printWarning("Repository binding references missing profile '%s'; continuing detection.", commitProfile)
+		}
+		commitProfile = ""
+	}
+	if commitProfile == "" {
+		commitProfile = singleProfileBinding(detection.Bindings)
+	}
+	if commitProfile == "" {
+		commitProfile = detectByEffectiveIdentity(config)
+	}
+	if commitProfile == "" {
+		commitProfile, _ = detectByHistory(config)
+	}
+	if commitProfile != "" {
+		applyCommitProfile(commitProfile, config[commitProfile])
+		setGitConfig("git-swap.profile", commitProfile)
+		fmt.Printf("🔍 Commit identity -> %s%s%s\n", ColorCyan, commitProfile, ColorReset)
+	} else {
+		printWarning("Provider accounts were resolved independently, but commit identity is ambiguous. Run git-swap <profile> once to bind it.")
+	}
+
+	if err := configureProviderAuthentication(bindings, config); err != nil {
+		printError("Provider authentication setup failed: %v", err)
+		os.Exit(1)
+	}
+	if githubProfile, ok := bindings[providerGitHub]; ok {
+		syncGitHubCLIAccount(githubProfile, config[githubProfile])
+	}
+}
+
+func singleProfileBinding(bindings map[string]string) string {
+	unique := ""
+	for _, profileName := range bindings {
+		if unique == "" {
+			unique = profileName
+		} else if unique != profileName {
+			return ""
+		}
+	}
+	return unique
+}
+
+func detectByEffectiveIdentity(config Config) string {
+	nameOut, _ := exec.Command("git", "config", "user.name").Output()
+	emailOut, _ := exec.Command("git", "config", "user.email").Output()
+	name, email := strings.TrimSpace(string(nameOut)), strings.TrimSpace(string(emailOut))
+	match := ""
+	for profileName, profile := range config {
+		if profile.Name == name && strings.EqualFold(profile.Email, email) {
+			if match != "" {
+				return ""
+			}
+			match = profileName
+		}
+	}
+	return match
 }
 
 func detectByHistory(config Config) (string, string) {
@@ -515,59 +623,6 @@ func detectByHistory(config Config) (string, string) {
 		for key, p := range config {
 			if strings.EqualFold(p.Email, e) {
 				return key, "history"
-			}
-		}
-	}
-	return "", ""
-}
-
-type remoteMatch struct {
-	remote string
-	rtype  string
-	score  int
-	method string
-}
-
-func detectByRemotePriority(config Config) (string, string) {
-	out, _ := exec.Command("git", "remote", "-v").Output()
-	lines := strings.Split(string(out), "\n")
-	re := regexp.MustCompile(`^(\S+)\s+.*[:/]([\w\.-]+)/[\w\.-]+(?:\.git)?\s+\((push|fetch)\)`)
-
-	var remotes []remoteMatch
-	for _, line := range lines {
-		m := re.FindStringSubmatch(line)
-		if len(m) > 3 {
-			remoteName := m[1]
-			score := 40
-			if remoteName == "origin" {
-				score = 100
-			} else if remoteName == "upstream" {
-				score = 80
-			} else if strings.Contains(line, "github.com") {
-				score = 60
-			}
-			if m[3] == "push" {
-				score += 10
-			}
-			remotes = append(remotes, remoteMatch{
-				remote: m[2],
-				rtype:  m[3],
-				score:  score,
-				method: remoteName + " " + m[3] + " URL",
-			})
-		}
-	}
-
-	sort.SliceStable(remotes, func(i, j int) bool {
-		return remotes[i].score > remotes[j].score
-	})
-
-	for _, r := range remotes {
-		for key, p := range config {
-			if strings.EqualFold(key, r.remote) ||
-				strings.EqualFold(strings.Split(p.Email, "@")[0], r.remote) ||
-				strings.EqualFold(p.Name, r.remote) {
-				return key, "remote " + r.method
 			}
 		}
 	}
@@ -707,7 +762,25 @@ type gitURLConversion struct {
 
 func githubHTTPSToSSH(rawURL string) (string, bool) {
 	u, err := url.Parse(strings.TrimSpace(rawURL))
-	if err != nil || u.Scheme != "https" || !strings.EqualFold(u.Hostname(), "github.com") {
+	if err != nil || !strings.EqualFold(u.Hostname(), supportedProviders[providerGitHub].Host) {
+		return "", false
+	}
+	return providerHTTPSToSSH(rawURL, nil, nil)
+}
+
+func providerHTTPSToSSH(rawURL string, config Config, bindings map[string]string) (string, bool) {
+	u, err := url.Parse(strings.TrimSpace(rawURL))
+	if err != nil || u.Scheme != "https" {
+		return "", false
+	}
+	provider := ""
+	for name, spec := range supportedProviders {
+		if strings.EqualFold(u.Hostname(), spec.Host) {
+			provider = name
+			break
+		}
+	}
+	if provider == "" {
 		return "", false
 	}
 
@@ -724,10 +797,17 @@ func githubHTTPSToSSH(rawURL string) (string, bool) {
 	if !strings.HasSuffix(repoPath, ".git") {
 		repoPath += ".git"
 	}
-	return "git@github.com:" + repoPath, true
+	host := supportedProviders[provider].Host
+	profileName := bindings[provider]
+	if profile, ok := config[profileName]; ok {
+		if account, exists := normalizedProviderAccounts(profileName, profile)[provider]; exists {
+			host = accountHostAlias(provider, profileName, account)
+		}
+	}
+	return "git@" + host + ":" + repoPath, true
 }
 
-func gitConfigURLConversions(configArgs ...string) []gitURLConversion {
+func gitConfigURLConversions(config Config, bindings map[string]string, configArgs ...string) []gitURLConversion {
 	pattern := `^(remote\..*\.url|remote\..*\.pushurl|submodule\..*\.url)$`
 	args := append([]string{"config"}, configArgs...)
 	args = append(args, "--get-regexp", pattern)
@@ -751,7 +831,7 @@ func gitConfigURLConversions(configArgs ...string) []gitURLConversion {
 		}
 
 		oldURL := strings.TrimSpace(value)
-		newURL, converted := githubHTTPSToSSH(oldURL)
+		newURL, converted := providerHTTPSToSSH(oldURL, config, bindings)
 		if !converted {
 			continue
 		}
@@ -777,14 +857,24 @@ func applyGitConfigURLConversion(c gitURLConversion, configArgs ...string) error
 	return exec.Command("git", args...).Run()
 }
 
-func convertSSH() {
+func convertSSH(config Config) {
 	if !isGitRepo() {
 		printError("Not a git repository.")
 		os.Exit(1)
 	}
 	convertedAny := false
+	markerOut, _ := exec.Command("git", "config", "--local", "--get", "git-swap.profile").Output()
+	profileName := strings.TrimSpace(string(markerOut))
+	bindings := repositoryProviderBindings(config)
+	if profile, ok := config[profileName]; ok {
+		for provider, fallbackProfile := range profileProviderBindings(profileName, profile) {
+			if _, bound := bindings[provider]; !bound {
+				bindings[provider] = fallbackProfile
+			}
+		}
+	}
 
-	for _, c := range gitConfigURLConversions("--local") {
+	for _, c := range gitConfigURLConversions(config, bindings, "--local") {
 		if err := applyGitConfigURLConversion(c, "--local"); err == nil {
 			printSuccess("Converted %s: %s -> %s", c.key, c.oldURL, c.newURL)
 			convertedAny = true
@@ -795,7 +885,7 @@ func convertSSH() {
 
 	modulesConverted := false
 	if _, err := os.Stat(".gitmodules"); err == nil {
-		for _, c := range gitConfigURLConversions("-f", ".gitmodules") {
+		for _, c := range gitConfigURLConversions(config, bindings, "-f", ".gitmodules") {
 			if err := applyGitConfigURLConversion(c, "-f", ".gitmodules"); err == nil {
 				printSuccess("Converted .gitmodules %s: %s -> %s", c.key, c.oldURL, c.newURL)
 				convertedAny = true
@@ -813,6 +903,6 @@ func convertSSH() {
 	}
 
 	if !convertedAny {
-		printWarning("No HTTPS GitHub remotes found to convert.")
+		printWarning("No HTTPS GitHub or Gitee remotes found to convert.")
 	}
 }
