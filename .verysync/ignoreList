@@ -3,6 +3,7 @@
 #
 #
 # OS generated files #
+#include ..\.verysyncignore
 (?d)$RECYCLE.BIN
 (?d)$Recycle.Bin
 (?d)\#recycle

@@ -1,0 +1,74 @@
+// ==============================================================================
+// VerySync (微力同步) 过滤规则 - git-swap 专项目录
+// 目标: E:\MCP\Projects\GitHub-Switch\git-swap\.verysyncignore (双端通过微力同步自动同步)
+// 策略: 保护 Git 双端同步但排除锁；过滤 Go 编译的二进制文件 (main.exe, bin/ 等) 与 lsp 缓存
+// ==============================================================================
+
+// ------------------------------------------------------------------------------
+// 1. Git 多端并发安全保护（保留仓库与提交历史，排除锁与瞬态工作态）
+// ------------------------------------------------------------------------------
+**/.git/*.lock
+**/.git/index.lock
+**/.git/COMMIT_EDITMSG
+**/.git/TAG_EDITMSG
+**/.git/FETCH_HEAD
+**/.git/ORIG_HEAD
+**/.git/rebase-apply
+**/.git/rebase-merge
+.git/*.lock
+.git/index.lock
+.git/COMMIT_EDITMSG
+
+// ------------------------------------------------------------------------------
+// 2. Go 构建产物与二进制 (避免二进制程序多端并发占用及锁争用，节省 ~7.3 MB)
+// ------------------------------------------------------------------------------
+(?d)*.exe
+(?d)*.exe~
+(?d)bin
+(?d)dist
+(?d)git-swap
+(?d)*.test
+(?d)*.prof
+(?d)*.out
+
+// ------------------------------------------------------------------------------
+// 3. LSP、linter 缓存与临时报告
+// ------------------------------------------------------------------------------
+(?d).lsp
+(?d).clj-kondo
+(?d).antigravitycli
+(?d)setup_hooks_report.txt
+
+// ------------------------------------------------------------------------------
+// 4. 通用现代编辑器单机状态与本地临时文件隔离
+// ------------------------------------------------------------------------------
+// Sublime Text
+(?d)*.sublime-workspace
+
+// VS Code / Cursor / Zed / Helix / JetBrains / Visual Studio
+(?d).vscode/chrome
+(?d).vscode/ipch
+(?d).vscode/.browse.*
+(?d).vscode/*.log
+(?d).cursor/cache
+(?d).cursor/state
+(?d).zed/settings.local.json
+(?d).helix/*.local.toml
+(?d).helix/*.log
+(?d).idea
+(?d)*.suo
+(?d)*.user
+(?d)*.userosv
+(?d)*.sln.docstates
+
+// Vim / Neovim / 交换文件 / 临时文本 / Office 锁
+(?d)*.swp
+(?d)*.swn
+(?d)*.swo
+(?d)*~
+(?d).netrwhist
+(?d)~$*
+(?d)*.tmp
+(?d)*.bak
+(?d)*.log
+(?d)*.sync-conflict*
